@@ -79,7 +79,7 @@ public class MainActivity extends AppCompatActivity {
         switch (id){
             case 1:
                 btnTimer.setBackgroundColor(Color.GRAY);
-                target = mainTimerFrag; lblTitleBar.setText("Log your activity");break;
+                target = mainTimerFrag; lblTitleBar.setText("Activity");break;
             case 2:
                 btnGraph.setBackgroundColor(Color.GRAY);
                 target = mainGraphFrag;lblTitleBar.setText("Dashboard");break;
@@ -88,7 +88,7 @@ public class MainActivity extends AppCompatActivity {
                 target = mainSettingFrag;lblTitleBar.setText("Settings");break;
             case 4:
                 btnGoal.setBackgroundColor(Color.GRAY);
-                target = mainGoalFrag;lblTitleBar.setText("Settings");break;
+                target = mainGoalFrag;lblTitleBar.setText("Goals");break;
 
         }
         FragmentManager fm = getSupportFragmentManager();
