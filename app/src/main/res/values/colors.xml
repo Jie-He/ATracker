@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#fff</color>
+    <color name="colorPrimaryDark">#2d2d2d</color>
+    <color name="colorAccent">#FF4081</color>
+
+    //my colour
+    <color name="ColourSidePanelStart">#353535</color>
+    <color name="ColourSidePanelEnd">#3a3a3a</color>
+    <color name="IconBkg">#424242</color>
+
+    <color name="textshapeback">#fff</color>
+    <color name="textshapeboard">#424242</color>
+
+
+    <color name="buttonshapeback">#424242</color>
+    <color name="buttonshapeboard">#fff</color>
+</resources>
