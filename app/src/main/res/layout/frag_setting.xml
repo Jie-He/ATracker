@@ -1,11 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
-    
     <LinearLayout
-        android:layout_below="@+id/sTitle"
+        xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
@@ -46,6 +41,16 @@
             android:background="@drawable/textshape"
             android:textAlignment="center"
             android:text="Confirm Password" />
+        <Button
+            android:id="@+id/btnUnlock"
+            style="?android:textAppearanceSmall"
+            android:layout_width="250dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="@string/action_save"
+            android:textStyle="bold"
+            android:minHeight="40dp"
+            android:textSize="18dp"
+            android:textColor="@color/textshapeback"
+            android:background="@drawable/buttonshape"/>
     </LinearLayout>
-
-</LinearLayout>
