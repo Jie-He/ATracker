@@ -59,14 +59,14 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 System.out.println("Clicked");
-                if(mPasswordView.getText().toString().equals(passcode)){
-                    Intent myIntent = new Intent(LoginActivity.this, MainActivity.class);
-                    LoginActivity.this.startActivity(myIntent);
-                    mPasswordView.setText("");
-                    System.out.println("Correct");
-                }else{
-                    mPasswordView.setText("NOPE");
-                }
+                // if(mPasswordView.getText().toString().equals(passcode)){
+                Intent myIntent = new Intent(LoginActivity.this, MainActivity.class);
+                LoginActivity.this.startActivity(myIntent);
+                mPasswordView.setText("");
+                System.out.println("Correct");
+                //   }else{
+                //       mPasswordView.setText("NOPE");
+                //    }
             }
         });
 
