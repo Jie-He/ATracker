@@ -89,7 +89,7 @@ public class TimerFragment extends Fragment {
                     try{
                         lblDuration.setText(myConverter.getTimeString(myRecord.getDuration(), flipflop));
                         flipflop = !flipflop;
-                        Thread.sleep(333); //sleep for 3rd of a second
+                        Thread.sleep(500); //sleep for half of a second
                     } catch (InterruptedException e){
                         r = false;
                     }

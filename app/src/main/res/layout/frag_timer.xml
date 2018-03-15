@@ -19,7 +19,7 @@
             android:layout_marginTop="50dp"
             android:layout_weight="0.09"
             android:background="@drawable/spinnershape"
-            android:popupBackground="#363636"
+            android:popupBackground="@drawable/spinnerlist"
             android:textColor="#fff"/>
 
         <TextView
@@ -34,7 +34,7 @@
             android:id="@+id/lblTime"/>
 
         <ImageButton
-
+            android:layout_marginTop="10dp"
             android:layout_gravity="center_horizontal"
             android:layout_width="100dp"
             android:layout_height="100dp"
