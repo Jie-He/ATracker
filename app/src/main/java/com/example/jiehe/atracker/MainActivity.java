@@ -6,6 +6,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.TextView;
@@ -23,13 +24,17 @@ public class MainActivity extends AppCompatActivity {
     SettingFragment mainSettingFrag;
     GoalFragment mainGoalFrag;
 
+    FileManager fm;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        mainTimerFrag = new TimerFragment();
-        mainGraphFrag = new GraphFragment();
+        fm = new FileManager(this, null);
+
+        mainTimerFrag = new TimerFragment(); mainTimerFrag.setFileManager(fm);
+        mainGraphFrag = new GraphFragment(); mainGraphFrag.setFileManager(fm);
         mainSettingFrag = new SettingFragment();
         mainGoalFrag = new GoalFragment();
 
@@ -95,5 +100,9 @@ public class MainActivity extends AppCompatActivity {
         FragmentTransaction transaction = fm.beginTransaction();
         transaction.replace(R.id.active_frag, target);
         transaction.commit();
+
+        //just test
+        TimeConverter tc = new TimeConverter();
+        Log.d("Time Converter Test: ", tc.getTimeString(1521416964233L, true));
     }
 }

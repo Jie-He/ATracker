@@ -7,10 +7,10 @@ package com.example.jiehe.atracker;
 //Converts time from millisecond to request format
 public class TimeConverter {
 
-    int hour_milli;
-    int minute_milli;
-    int second_milli;
-    int day_milli;
+    long hour_milli;
+    long minute_milli;
+    long second_milli;
+    long day_milli;
 
     public TimeConverter(){
         hour_milli =3600000;
@@ -28,8 +28,8 @@ public class TimeConverter {
      * @return
      *  return the hour
      */
-    public int getHour(int milli){
-        int hour = (int)(milli/hour_milli);
+    public long getHour(long milli){
+        long hour = (int)(milli/hour_milli);
         return hour%24;
     }
 
@@ -38,8 +38,8 @@ public class TimeConverter {
      * @param milli
      * @return
      */
-    public int getMinute(int milli){
-        int minute = (int)(milli/minute_milli) ;
+    public long getMinute(long milli){
+        long minute = (int)(milli/minute_milli) ;
         return minute %60;
     }
 
@@ -48,8 +48,8 @@ public class TimeConverter {
      * @param milli
      * @return
      */
-    public int getSecond(int milli){
-        int second = (int)(milli/second_milli);
+    public long getSecond(long milli){
+        long second = (int)(milli/second_milli);
         return second %60;
     }
 
@@ -58,8 +58,8 @@ public class TimeConverter {
      * @param milli
      * @return
      */
-    public int getDay(int milli){
-        int day = (int)(milli / day_milli);
+    public long getDay(long milli){
+        long day = (int)(milli / day_milli);
         return day% 365;
     }
 
@@ -70,7 +70,7 @@ public class TimeConverter {
      * @return
      *  string in that format
      */
-    public String getTimeString(int milli, boolean useDot){
+    public String getTimeString(long milli, boolean useDot){
         String duration = "";
 
         /*if time is more than a day then include day*/
@@ -79,17 +79,17 @@ public class TimeConverter {
             day = getDay(milli) + ":";
         }
 
-        String hour = Integer.toString(getHour(milli));
+        String hour = Long.toString(getHour(milli));
         if(hour.length() == 1){
             hour = "0" + hour;
         }
 
-        String minute = Integer.toString(getMinute(milli));
+        String minute = Long.toString(getMinute(milli));
         if(minute.length() == 1){
             minute = "0" + minute;
         }
 
-        String second = Integer.toString(getSecond(milli));
+        String second = Long.toString(getSecond(milli));
         if(second.length() == 1){
             second = "0" + second;
         }

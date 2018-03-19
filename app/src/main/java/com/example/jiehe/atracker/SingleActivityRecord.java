@@ -1,5 +1,7 @@
 package com.example.jiehe.atracker;
 
+import android.util.Log;
+
 /**
  * Created by Adam on --/03/2018.
  */
@@ -8,8 +10,9 @@ package com.example.jiehe.atracker;
 
 public class SingleActivityRecord {
 
-    private int startTime;
-    private int endTime;
+    private int activity_id;
+    private long startTime;
+    private long endTime;
     private boolean isRunning;
 
     public SingleActivityRecord(){
@@ -20,32 +23,41 @@ public class SingleActivityRecord {
 
     public void startActivity(){
         if(!isRunning){
-            startTime = (int)System.currentTimeMillis();
+            startTime = System.currentTimeMillis();
+            Log.d("test", Long.toString(startTime));
             isRunning = true;
         }
     }
 
     public void endActivity(){
         if(isRunning){
-            endTime = (int)System.currentTimeMillis();
+            endTime = System.currentTimeMillis();
             isRunning = false;
         }
     }
 
-    public int getStartTime(){
+    public long getStartTime(){
         return startTime;
     }
 
-    public int getEndTime(){
+    public long getEndTime(){
         return endTime;
     }
 
-    public int getDuration(){
+    public long getDuration(){
         if(isRunning){
-            return (int)System.currentTimeMillis() - startTime;
+            return (long)System.currentTimeMillis() - startTime;
         }
 
         return endTime - startTime;
+    }
+
+    public int getActivity_id(){
+        return activity_id;
+    }
+
+    public void setActivity_id(int id){
+        activity_id = id;
     }
 
 }

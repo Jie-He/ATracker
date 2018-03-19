@@ -27,6 +27,8 @@ public class TimerFragment extends Fragment {
     Thread timeThread;
     boolean isRecording;
 
+    FileManager fm;
+
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState){
         //return super.onCreateView(inflater, container,savedInstanceState);
@@ -60,6 +62,10 @@ public class TimerFragment extends Fragment {
         return view;
     }
 
+    public void setFileManager(FileManager fm){
+        this.fm = fm;
+    }
+
     public void btnRecordClick(){
         float deg = btnRecord.getRotation() + 90F;
         btnRecord.animate().rotation(deg).setInterpolator(new AccelerateDecelerateInterpolator());
@@ -69,6 +75,10 @@ public class TimerFragment extends Fragment {
             myRecord.endActivity();
             mySpinner.setEnabled(true);
             //save this activity after; maybe pass to super class and deal with it
+            if(fm != null){
+                fm.addRecord(myRecord);
+            }
+
         }else{
             lblRecord.setText("STOP");
             myRecord = new SingleActivityRecord();
