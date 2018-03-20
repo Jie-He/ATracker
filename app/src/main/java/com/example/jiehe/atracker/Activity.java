@@ -13,7 +13,16 @@ public class Activity {
     private int myGoalMode;
 
     public Activity(String name){
+        this.myName = name.toUpperCase();
+        myGoal = 0;
+        myGoalMode = 0;
+        myRecords = new ArrayList<>();
+    }
+
+    public Activity(String name, int goal){
         this.myName = name;
+        this.myGoal = goal;
+        myGoalMode = 0;
         myRecords = new ArrayList<>();
     }
 

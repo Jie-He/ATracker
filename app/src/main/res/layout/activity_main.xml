@@ -47,12 +47,32 @@
                 android:layout_gravity="center_horizontal|center"
                 android:id="@+id/btnGoals" />
 
+            <ImageButton
+                android:layout_width="@dimen/buttonSize"
+                android:layout_height="@dimen/buttonSize"
+                android:layout_marginTop="20dp"
+                android:src="@drawable/records_place_holder"
+                android:scaleType="fitXY"
+                android:background="@android:color/transparent"
+                android:layout_gravity="center_horizontal|center"
+                android:id="@+id/btnRecords" />
+
+            <ImageButton
+                android:layout_width="@dimen/buttonSize"
+                android:layout_height="@dimen/buttonSize"
+                android:layout_marginTop="20dp"
+                android:src="@drawable/debug_place_holder"
+                android:scaleType="fitXY"
+                android:background="@android:color/transparent"
+                android:layout_gravity="center_horizontal|center"
+                android:id="@+id/btnDebug" />
+
             <LinearLayout
                 android:layout_width="@dimen/sideBarInnerTickness"
                 android:layout_height="0dip"
                 android:layout_weight="1"
                 android:gravity="center|bottom"
-                android:orientation="vertical" >
+                android:orientation="vertical">
 
                 <ImageButton
                     android:layout_width="@dimen/buttonSize"

@@ -29,13 +29,32 @@ public class TimerFragment extends Fragment {
 
     FileManager fm;
 
+    /**
+     * Constructor.
+     * Set the isRecording variable and the Timer.
+     */
+    public TimerFragment(){
+      isRecording = false;
+      myConverter = new TimeConverter();
+    }
+
+    /**
+     * returns the view of the fragment and set all the UI elements
+     * @param inflater
+     *  dunno.
+     * @param container
+     *  the class contains this?
+     * @param savedInstanceState
+     *  dunnn
+     * @return
+     *  the view
+     */
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState){
         //return super.onCreateView(inflater, container,savedInstanceState);
         View view = inflater.inflate(R.layout.frag_timer, container, false);
 
-        isRecording = false;
-        myConverter = new TimeConverter();
+        //get all the UI components
         mySpinner = (Spinner)view.findViewById(R.id.activitySpinner);
         lblRecord = (TextView)view.findViewById(R.id.lblRecord);
         lblDuration = (TextView)view.findViewById(R.id.lblTime);
@@ -47,6 +66,8 @@ public class TimerFragment extends Fragment {
             }
         });
 
+        //add default activities.
+        //will remove this and load from database when complete
         ArrayList<String> activityList = new ArrayList<String>();
         activityList.add("WORKING");
         activityList.add("STUDYING");
@@ -58,38 +79,71 @@ public class TimerFragment extends Fragment {
 
         mySpinner.setAdapter(adapter);
 
+        //update the label incase timer already started.
+        updateLabelAndSpinner();
 
         return view;
     }
 
+    /**
+     * Sets the FileManager
+     * @param fm
+     *  FileManager object to be used
+     */
     public void setFileManager(FileManager fm){
         this.fm = fm;
     }
 
+    /**
+     * Record button press.
+     */
     public void btnRecordClick(){
+        //rotation animation.. probs remove when button texture made
         float deg = btnRecord.getRotation() + 90F;
         btnRecord.animate().rotation(deg).setInterpolator(new AccelerateDecelerateInterpolator());
-        if(isRecording){
+
+        //what to do when its recording
+        if(isRecording){ //stop the thread
             timeThread.interrupt();
-            lblRecord.setText("START");
-            myRecord.endActivity();
-            mySpinner.setEnabled(true);
+            myRecord.endActivity(); //stop activity
             //save this activity after; maybe pass to super class and deal with it
-            if(fm != null){
-                fm.addRecord(myRecord);
+            if(fm != null){ //add to database
+                fm.updateRecord(myRecord, myRecord);
             }
 
         }else{
-            lblRecord.setText("STOP");
+            //make a new record
             myRecord = new SingleActivityRecord();
-            myRecord.startActivity();
-            createTimeThread();
-            mySpinner.setEnabled(false);
-            //
+            myRecord.startActivity(); //start the activity
+            if(fm != null){
+                fm.addRecord(myRecord);
+            }
+            createTimeThread(); //start the thread
         }
+        //change the recording state
         isRecording = !isRecording;
+        //update the labels and lock the spinner
+        updateLabelAndSpinner();
+
     }
 
+    /**
+     * Method that updates the label and the spinner.
+     */
+    public void updateLabelAndSpinner(){
+        if(isRecording){
+            lblRecord.setText("STOP");
+            mySpinner.setEnabled(false);
+        }else{
+            lblRecord.setText("START");
+            mySpinner.setEnabled(true);
+        }
+    }
+
+    /**
+     * Start a thread that updates the UI label for time
+     * Sleeps 500ms.
+     */
     public void createTimeThread(){
         timeThread = new Thread(){
             public void run(){

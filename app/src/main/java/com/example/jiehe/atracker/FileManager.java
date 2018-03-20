@@ -9,6 +9,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.database.Cursor;
 import android.content.Context;
 import android.content.ContentValues;
+import android.util.Log;
 
 /**
  * SEXIEST CLASS OF ALL....
@@ -23,23 +24,23 @@ public class FileManager extends SQLiteOpenHelper {
   private static final String DATABASE_NAME = "ATracker.db";
 
   //TABLE FOR THE RECORDS
-  public static final String TABLE_RECORDS = "RECORD_TABLE";
-  public static final String TABLE_RECORDS_COLUMN_ID = "ID";
+  private final String TABLE_RECORDS = "RECORD_TABLE";
+  private final String TABLE_RECORDS_COLUMN_ID = "ID";
   //the id that links to the activity in activity table
-  public static final String TABLE_RECORDS_COLUMN_ACTIVITY_ID = "ACTIVITY_ID";
+  private final String TABLE_RECORDS_COLUMN_ACTIVITY_ID = "ACTIVITY_ID";
   //the integer that stores the start time in milliseconds
-  public static final String TABLE_RECORDS_COLUMN_START_TIME = "START_TIME";
+  private final String TABLE_RECORDS_COLUMN_START_TIME = "START_TIME";
   //the integer that stores the end time in milliseconds
-  public static final String TABLE_RECORDS_COLUMN_END_TIME = "END_TIME";
+  private final String TABLE_RECORDS_COLUMN_END_TIME = "END_TIME";
 
   //TABLE FOR THE ACTIVITY (THE NAMES)
-  public static final String TABLE_ACTIVITY = "ACTIVITY_TABLE";
-  public static final String TABLE_ACTIVITY_COLUMN_ID = "ACTIVITY_ID";
-  public static final String TABLE_ACTIVITY_COLUMN_NAME = "ACTIVITY_NAME";
+  private final String TABLE_ACTIVITY = "ACTIVITY_TABLE";
+  private final String TABLE_ACTIVITY_COLUMN_ID = "ACTIVITY_ID";
+  private final String TABLE_ACTIVITY_COLUMN_NAME = "ACTIVITY_NAME";
   //the integer that stores the length of a activity
-  public static final String TABLE_ACITVITY_COLUMN_GOAL_DAILY = "GOAL_DAILY";
+  private final String TABLE_ACITVITY_COLUMN_GOAL_DAILY = "GOAL_DAILY";
   //the integer that indicate whether or not to pass the goal. e.g "0 = not to reach goal" "1 = need to reach goal"
-  public static final String TABLE_ACTIVITY_COLUMN_GOAL_MODE = "GOAL_MODE";
+  private final String TABLE_ACTIVITY_COLUMN_GOAL_MODE = "GOAL_MODE";
 
   public FileManager(Context context, SQLiteDatabase.CursorFactory factory) {
     super(context, DATABASE_NAME, factory, DATABASE_VERSION);
@@ -76,25 +77,58 @@ public class FileManager extends SQLiteOpenHelper {
   /**
    * Method to add an activity to the database (not a recording)
    * @param newActivity
+   *  Activity to add.
    */
   public void addActiviy(Activity newActivity){
-    ContentValues value = new ContentValues();
-    value.put(TABLE_ACTIVITY_COLUMN_NAME, newActivity.getName());
-    value.put(TABLE_ACITVITY_COLUMN_GOAL_DAILY, newActivity.getGoal());
-    value.put(TABLE_ACTIVITY_COLUMN_GOAL_MODE, newActivity.getGoalMode());
+    //check if the activity already exists.
+    if(!existsActivity(newActivity.getName()) && newActivity.getName().length() > 0){
+      ContentValues value = new ContentValues();
+      value.put(TABLE_ACTIVITY_COLUMN_NAME, newActivity.getName());
+      value.put(TABLE_ACITVITY_COLUMN_GOAL_DAILY, newActivity.getGoal());
+      value.put(TABLE_ACTIVITY_COLUMN_GOAL_MODE, newActivity.getGoalMode());
+      SQLiteDatabase db = getWritableDatabase();
+      db.insert(TABLE_ACTIVITY, null, value);
+      db.close();
+    }
+  }
+
+  /**
+   * this method checks if an Activity Name is already in the database
+   * @param activityName
+   *  the name of the activity
+   * @return
+   *  if this name exists already
+   *
+   */
+  public boolean existsActivity(String activityName){
+    //try to find it in the database/@
+    boolean result;
     SQLiteDatabase db = getWritableDatabase();
-    db.insert(TABLE_ACTIVITY, null, value);
+    String query = "SELECT * FROM " + TABLE_ACTIVITY + " WHERE " + TABLE_ACTIVITY_COLUMN_NAME + " = \"" + activityName.toUpperCase() + "\"";
+    Cursor c = db.rawQuery(query, null);
+    if(c.getCount() > 0){
+      result =  true;
+      Log.d("Database", "Found Activity!");
+    }else{
+      result =  false;
+      Log.d("Database", "404 Activity!");
+    }
+    c.close();
     db.close();
+    return result;
+
   }
 
   /**
    * Method to remove an activity (not a recording)
    * @param activityName
+   *  use this name to delete the one in the database
    */
   public void deleteActivity(String activityName){
     String query = "DELETE FROM " + TABLE_ACTIVITY + " WHERE " + TABLE_ACTIVITY_COLUMN_NAME + " = \"" + activityName + "\"";
     SQLiteDatabase db = this.getWritableDatabase();
     db.execSQL(query);
+    db.close();
   }
 
   /**
@@ -136,6 +170,19 @@ public class FileManager extends SQLiteOpenHelper {
             TABLE_RECORDS_COLUMN_ACTIVITY_ID + " = " + removeRecord.getActivity_id() + " AND " +
                     TABLE_RECORDS_COLUMN_START_TIME + " = " + removeRecord.getStartTime()
             );
+    db.close();
+  }
+
+  /**
+   * method to update a record in db
+   * @param sarOld
+   *  the old record
+   * @param sarNew
+   *  the new record
+   */
+  public void updateRecord(SingleActivityRecord sarOld, SingleActivityRecord sarNew){
+    deleteRecord(sarOld);
+    addRecord(sarNew);
   }
 
   public String recordToString(){
@@ -153,8 +200,36 @@ public class FileManager extends SQLiteOpenHelper {
       dbString += c.getString(c.getColumnIndex(TABLE_RECORDS_COLUMN_ACTIVITY_ID)) + "start: " + TC.getTimeString(stimeMills, true)  + " -- end: " + TC.getTimeString(etimeMills, true);
       dbString += "\n";
     }
-
+    c.close();
     db.close();
     return dbString;
+  }
+
+  public String activityToString(){
+    String dbString = "";
+    SQLiteDatabase db = this.getWritableDatabase();
+    String query = "SELECT * FROM " + TABLE_ACTIVITY + " ";
+    //cursor points to a location in your result;
+    Cursor c =  db.rawQuery(query, null);
+    //move to first row
+
+    while(c.moveToNext()){
+      dbString += c.getString(c.getColumnIndex(TABLE_ACTIVITY_COLUMN_NAME));
+      dbString += "\n";
+    }
+    c.close();
+    db.close();
+    return dbString;
+  }
+
+
+  /***
+   * just for testing
+   */
+  public void clearDatabase(){
+    SQLiteDatabase db = getWritableDatabase();
+    db.execSQL("DELETE FROM " + TABLE_RECORDS + " WHERE 1;");
+    db.execSQL("DELETE FROM " + TABLE_ACTIVITY + " WHERE 1;");
+    db.close();
   }
 }

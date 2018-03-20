@@ -1,28 +1,42 @@
 package com.example.jiehe.atracker;
 
 import android.graphics.Color;
+import android.graphics.drawable.Drawable;
+import android.graphics.drawable.GradientDrawable;
+import android.graphics.drawable.ShapeDrawable;
+import android.graphics.drawable.shapes.Shape;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+
 public class MainActivity extends AppCompatActivity {
+
+    private final boolean DEV_MODE = true;
 
     ImageButton btnTimer;
     ImageButton btnGraph;
     ImageButton btnSetting;
     ImageButton btnGoal;
+    ImageButton btnRecords;
+    ImageButton btnDebug;
 
     TextView lblTitleBar;
+
     TimerFragment mainTimerFrag;
     GraphFragment mainGraphFrag;
     SettingFragment mainSettingFrag;
     GoalFragment mainGoalFrag;
+    RecordsFragment mainRecordsFrag;
+    DebugFragment mainDebugFrag;
 
     FileManager fm;
 
@@ -34,75 +48,101 @@ public class MainActivity extends AppCompatActivity {
         fm = new FileManager(this, null);
 
         mainTimerFrag = new TimerFragment(); mainTimerFrag.setFileManager(fm);
-        mainGraphFrag = new GraphFragment(); mainGraphFrag.setFileManager(fm);
+        mainGraphFrag = new GraphFragment();
         mainSettingFrag = new SettingFragment();
         mainGoalFrag = new GoalFragment();
+        mainRecordsFrag = new RecordsFragment();
+        mainDebugFrag = new DebugFragment(); mainDebugFrag.setFileManager(fm);
 
         lblTitleBar = (TextView)findViewById(R.id.titleBarLabel);
 
+        //get all buttons
         btnTimer = (ImageButton)findViewById(R.id.btnTimer);
         btnGraph = (ImageButton)findViewById(R.id.btnGraph);
         btnSetting = (ImageButton)findViewById(R.id.btnSetting);
         btnGoal = (ImageButton)findViewById(R.id.btnGoals);
+        btnRecords = (ImageButton)findViewById(R.id.btnRecords);
+        btnDebug = (ImageButton)findViewById(R.id.btnDebug);
 
+        //add listeners to button...
         btnTimer.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v){
-                changeFrage(1);
+                changeFrag(1);
             }
         });
-
         btnGraph.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v){
-                changeFrage(2);
+                changeFrag(2);
             }
         });
-
-        btnSetting.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View v){
-                changeFrage(3);
-            }
-        });
-
         btnGoal.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v){
-                changeFrage(4);
+                changeFrag(3);
             }
         });
+        btnRecords.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                changeFrag(4);
+            }
+        });
+        btnSetting.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v){
+                changeFrag(5);
+            }
+        });
+        btnDebug.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                changeFrag(9);
+            }
+        });
+
+        if(!DEV_MODE){
+            btnDebug.setVisibility(View.GONE);
+        }
     }
 
-    public void changeFrage(int id){
-        btnTimer.setBackgroundColor(Color.argb(0,0,0,0));
-        btnSetting.setBackgroundColor(Color.argb(0,0,0,0));
-        btnGraph.setBackgroundColor(Color.argb(0,0,0,0));
-        btnGoal.setBackgroundColor(Color.argb(0,0,0,0));
+    public void changeFrag(int id){
+        //set all button back colour to nothing.
+        btnTimer.setBackground(null);
+        btnSetting.setBackground(null);
+        btnGraph.setBackground(null);
+        btnGoal.setBackground(null);
+        btnRecords.setBackground(null);
+        btnDebug.setBackground(null);
 
         Fragment target = null;
+
         switch (id){
-            case 1:
-                btnTimer.setBackgroundColor(Color.GRAY);
+            case 1://show the timer
+                btnTimer.setBackground(ContextCompat.getDrawable(this, R.drawable.nav_button_back));
                 target = mainTimerFrag; lblTitleBar.setText("Activity");break;
-            case 2:
-                btnGraph.setBackgroundColor(Color.GRAY);
+            case 2: //show the graph
+                btnGraph.setBackground(ContextCompat.getDrawable(this, R.drawable.nav_button_back));
                 target = mainGraphFrag;lblTitleBar.setText("Dashboard");break;
-            case 3:
-                btnSetting.setBackgroundColor(Color.GRAY);
-                target = mainSettingFrag;lblTitleBar.setText("Settings");break;
-            case 4:
-                btnGoal.setBackgroundColor(Color.GRAY);
+            case 3://show the goals
+                btnGoal.setBackground(ContextCompat.getDrawable(this, R.drawable.nav_button_back));
                 target = mainGoalFrag;lblTitleBar.setText("Goals");break;
+            case 4: //show the records
+                btnRecords.setBackground(ContextCompat.getDrawable(this, R.drawable.nav_button_back));
+                target = mainRecordsFrag;lblTitleBar.setText("Records");break;
+            case 5: //show the setting view
+                btnSetting.setBackground(ContextCompat.getDrawable(this, R.drawable.nav_button_back));
+                target = mainSettingFrag;lblTitleBar.setText("Settings");break;
+            case 9: //show the debug view
+                btnDebug.setBackground(ContextCompat.getDrawable(this, R.drawable.nav_button_back));
+                target = mainDebugFrag;lblTitleBar.setText("Debug Page");break;
 
         }
+        //change the fragment.
         FragmentManager fm = getSupportFragmentManager();
         FragmentTransaction transaction = fm.beginTransaction();
         transaction.replace(R.id.active_frag, target);
         transaction.commit();
-
-        //just test
-        TimeConverter tc = new TimeConverter();
-        Log.d("Time Converter Test: ", tc.getTimeString(1521416964233L, true));
     }
 }
