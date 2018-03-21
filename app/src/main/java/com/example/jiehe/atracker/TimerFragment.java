@@ -36,7 +36,6 @@ public class TimerFragment extends Fragment {
     public TimerFragment(){
       isRecording = false;
       myConverter = new TimeConverter();
-      createTimeThread();
     }
 
     /**
@@ -119,7 +118,7 @@ public class TimerFragment extends Fragment {
             if(fm != null){
                 fm.addRecord(myRecord);
             }
-            timeThread.start(); //start the thread
+            createTimeThread(); //start the thread
         }
         //change the recording state
         isRecording = !isRecording;
@@ -161,5 +160,6 @@ public class TimerFragment extends Fragment {
                 }
             }
         };
+        timeThread.start();
     }
 }
