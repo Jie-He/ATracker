@@ -41,7 +41,7 @@
                 android:layout_width="@dimen/buttonSize"
                 android:layout_height="@dimen/buttonSize"
                 android:layout_marginTop="20dp"
-                android:src="@drawable/graph_place_holder"
+                android:src="@drawable/goal_place_holder"
                 android:scaleType="fitXY"
                 android:background="@android:color/transparent"
                 android:layout_gravity="center_horizontal|center"
