@@ -6,20 +6,20 @@ import java.util.ArrayList;
  * Created by jiehe on 18/03/2018.
  */
 
-public class Activity {
+public class MyActivity {
     private String myName;
     private ArrayList<SingleActivityRecord> myRecords;
     private int myGoal;
     private int myGoalMode;
 
-    public Activity(String name){
+    public MyActivity(String name){
         this.myName = name.toUpperCase();
         myGoal = 0;
         myGoalMode = 0;
         myRecords = new ArrayList<>();
     }
 
-    public Activity(String name, int goal){
+    public MyActivity(String name, int goal){
         this.myName = name;
         this.myGoal = goal;
         myGoalMode = 0;

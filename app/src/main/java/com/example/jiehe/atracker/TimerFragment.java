@@ -1,6 +1,9 @@
 package com.example.jiehe.atracker;
 
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
+import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -16,19 +19,19 @@ import android.widget.TextView;
 import java.util.ArrayList;
 
 public class TimerFragment extends Fragment {
-    Spinner mySpinner;
-    ImageButton btnRecord;
-    TextView lblRecord;
-    TextView lblDuration;
+    private Spinner mySpinner;
+    private ImageButton btnRecord;
+    private TextView lblRecord;
+    private TextView lblDuration;
 
-    TimeConverter myConverter;
-    SingleActivityRecord myRecord;
+    private TimeConverter myConverter;
+    private SingleActivityRecord myRecord;
 
-    Thread timeThread;
-    boolean isRecording;
+    private Thread timeThread;
+    private boolean isRecording;
 
-    FileManager fm;
-
+    private FileManager fm;
+    private final Handler mHandler;
     /**
      * Constructor.
      * Set the isRecording variable and the Timer.
@@ -36,6 +39,11 @@ public class TimerFragment extends Fragment {
     public TimerFragment(){
       isRecording = false;
       myConverter = new TimeConverter();
+      mHandler = new Handler(){
+        public void handleMessage(Message msg){
+          lblDuration.setText((String)msg.obj);
+        }
+      };
     }
 
     /**
@@ -147,15 +155,18 @@ public class TimerFragment extends Fragment {
     public void createTimeThread(){
         timeThread = new Thread(){
             public void run(){
-                boolean r = true;
                 boolean flipflop = true;
-                while(r){
+                while(true){
                     try{
-                        lblDuration.setText(myConverter.getTimeString(myRecord.getDuration(), flipflop));
-                        flipflop = !flipflop;
-                        Thread.sleep(500); //sleep for half of a second
+                      String time = myConverter.getTimeString(myRecord.getDuration(), flipflop);
+                      Message msg = Message.obtain();
+                      msg.obj = time;
+                      msg.setTarget(mHandler);
+                      msg.sendToTarget();
+                      flipflop = !flipflop;
+                      Thread.sleep(500); //sleep for half of a second
                     } catch (InterruptedException e){
-                        r = false;
+                      return;
                     }
                 }
             }

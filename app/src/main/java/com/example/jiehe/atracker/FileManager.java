@@ -79,7 +79,7 @@ public class FileManager extends SQLiteOpenHelper {
    * @param newActivity
    *  Activity to add.
    */
-  public void addActiviy(Activity newActivity){
+  public void addActiviy(MyActivity newActivity){
     //check if the activity already exists.
     if(!existsActivity(newActivity.getName()) && newActivity.getName().length() > 0){
       ContentValues value = new ContentValues();
@@ -137,7 +137,7 @@ public class FileManager extends SQLiteOpenHelper {
    * possibly rename the activity
    * @param activity
    */
-  public void updateActivity(Activity activity){
+  public void updateActivity(MyActivity activity){
     //lmao delete that one and add this one
     deleteActivity(activity.getName());
     addActiviy(activity);

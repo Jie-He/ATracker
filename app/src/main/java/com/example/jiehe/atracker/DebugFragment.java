@@ -62,7 +62,7 @@ public class DebugFragment extends Fragment {
             public void onClick(View view) {
                 if(fm != null){
                     String name = txtInput.getText().toString();
-                    Activity myActivity = new Activity(name);
+                    MyActivity myActivity = new MyActivity(name);
                     fm.addActiviy(myActivity);
                 }
             }
