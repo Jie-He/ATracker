@@ -9,20 +9,17 @@ import java.util.ArrayList;
 public class MyActivity {
     private String myName;
     private ArrayList<SingleActivityRecord> myRecords;
-    private int myGoal;
-    private int myGoalMode;
+    private Goal myGoal;
 
     public MyActivity(String name){
         this.myName = name.toUpperCase();
-        myGoal = 0;
-        myGoalMode = 0;
+        myGoal = new Goal();
         myRecords = new ArrayList<>();
     }
 
-    public MyActivity(String name, int goal){
+    public MyActivity(String name, Goal goal){
         this.myName = name;
         this.myGoal = goal;
-        myGoalMode = 0;
         myRecords = new ArrayList<>();
     }
 
@@ -38,19 +35,21 @@ public class MyActivity {
         this.myName = myName;
     }
 
-    public int getGoal() {
-        return myGoal;
+    public int getActualGoal() {
+        return myGoal.getActualGoal();
     }
 
-    public void setGoal(int myGoal) {
+    public Goal getGoal(){return myGoal;}
+
+    public void setGoal(Goal myGoal) {
         this.myGoal = myGoal;
     }
 
-    public int getGoalMode() {
-        return myGoalMode;
+    public boolean getGoalMode() {
+        return myGoal.getAob();
     }
 
-    public void setGoalMode(int myGoalMode) {
-        this.myGoalMode = myGoalMode;
+    public void setGoalMode(boolean b) {
+        myGoal.setAob(b);
     }
 }
