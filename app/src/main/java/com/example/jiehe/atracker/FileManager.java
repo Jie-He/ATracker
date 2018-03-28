@@ -84,7 +84,7 @@ public class FileManager extends SQLiteOpenHelper {
     if(!existsActivity(newActivity.getName()) && newActivity.getName().length() > 0){
       ContentValues value = new ContentValues();
       value.put(TABLE_ACTIVITY_COLUMN_NAME, newActivity.getName());
-      value.put(TABLE_ACITVITY_COLUMN_GOAL_DAILY, newActivity.getGoal());
+      value.put(TABLE_ACITVITY_COLUMN_GOAL_DAILY, newActivity.getActualGoal());
       value.put(TABLE_ACTIVITY_COLUMN_GOAL_MODE, newActivity.getGoalMode());
       SQLiteDatabase db = getWritableDatabase();
       db.insert(TABLE_ACTIVITY, null, value);
@@ -221,7 +221,6 @@ public class FileManager extends SQLiteOpenHelper {
     db.close();
     return dbString;
   }
-
 
   /***
    * just for testing

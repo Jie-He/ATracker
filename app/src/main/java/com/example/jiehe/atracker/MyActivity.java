@@ -45,11 +45,16 @@ public class MyActivity {
         this.myGoal = myGoal;
     }
 
-    public boolean getGoalMode() {
-        return myGoal.getAob();
+    public int getGoalMode() {
+        return myGoal.getAob()? 1 : 0;
     }
 
-    public void setGoalMode(boolean b) {
-        myGoal.setAob(b);
+    public void setGoalMode(int b) {
+        if(b == 1){
+            myGoal.setAob(true);
+        }else{
+            myGoal.setAob(false);
+        }
+
     }
 }
