@@ -11,6 +11,8 @@ import android.content.Context;
 import android.content.ContentValues;
 import android.util.Log;
 
+import java.util.ArrayList;
+
 /**
  * SEXIEST CLASS OF ALL....
  *  YOU ASK WHAT TO GET THIS WILL GET THAT FROM DATABASE FOR YOU
@@ -92,6 +94,15 @@ public class FileManager extends SQLiteOpenHelper {
     }
   }
 
+  public int getActivityID(String activityName){
+    SQLiteDatabase db = this.getWritableDatabase();
+    String query = "SELECT * FROM " + TABLE_ACTIVITY + " WHERE " + TABLE_ACTIVITY_COLUMN_NAME + " = '" + activityName + "'";
+    Cursor c = db.rawQuery(query, null);
+    c.moveToFirst();
+    int myid = c.getInt(c.getColumnIndex(TABLE_ACTIVITY_COLUMN_ID));
+    c.close();
+    return myid;
+  }
   /**
    * this method checks if an Activity Name is already in the database
    * @param activityName
@@ -195,9 +206,10 @@ public class FileManager extends SQLiteOpenHelper {
     //move to first row
 
     while(c.moveToNext()){
+      int id = c.getInt(c.getColumnIndex(TABLE_RECORDS_COLUMN_ID));
       long stimeMills = c.getLong(c.getColumnIndex(TABLE_RECORDS_COLUMN_START_TIME));
       long etimeMills = c.getLong(c.getColumnIndex(TABLE_RECORDS_COLUMN_END_TIME));
-      dbString += c.getString(c.getColumnIndex(TABLE_RECORDS_COLUMN_ACTIVITY_ID)) + "start: " + TC.getTimeString(stimeMills, true)  + " -- end: " + TC.getTimeString(etimeMills, true);
+      dbString += id + " : " + c.getString(c.getColumnIndex(TABLE_RECORDS_COLUMN_ACTIVITY_ID)) + "start: " + TC.getTimeString(stimeMills, true)  + " -- end: " + TC.getTimeString(etimeMills, true);
       dbString += "\n";
     }
     c.close();
@@ -214,12 +226,29 @@ public class FileManager extends SQLiteOpenHelper {
     //move to first row
 
     while(c.moveToNext()){
-      dbString += c.getString(c.getColumnIndex(TABLE_ACTIVITY_COLUMN_NAME));
-      dbString += "\n";
+      String aName = c.getString(c.getColumnIndex(TABLE_ACTIVITY_COLUMN_NAME));
+      int aId = c.getInt(c.getColumnIndex(TABLE_ACTIVITY_COLUMN_ID));
+      dbString += aId + " : " + aName + "\n";
     }
     c.close();
     db.close();
     return dbString;
+  }
+
+  public ArrayList<String> getActivityNames(){
+    ArrayList<String> aNames = new ArrayList<>();
+    SQLiteDatabase db = this.getWritableDatabase();
+    String query = "SELECT * FROM " + TABLE_ACTIVITY + " ";
+    //cursor points to a location in your result;
+    Cursor c =  db.rawQuery(query, null);
+    //move to first row
+
+    while(c.moveToNext()){
+      aNames.add(c.getString(c.getColumnIndex(TABLE_ACTIVITY_COLUMN_NAME)));
+    }
+    c.close();
+    db.close();
+    return aNames;
   }
 
   /***

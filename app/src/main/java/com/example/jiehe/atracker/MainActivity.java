@@ -20,7 +20,7 @@ import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity {
 
-    private final boolean DEV_MODE = true;
+    private boolean DEV_MODE = true;
 
     ImageButton btnTimer;
     ImageButton btnGraph;
@@ -46,6 +46,14 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         fm = new FileManager(this, null);
+
+        //add the default activities
+        fm.addActiviy(new MyActivity("FREE TIME"));
+        fm.addActiviy(new MyActivity("TRAVEL"));
+        fm.addActiviy(new MyActivity("WORK"));
+        fm.addActiviy(new MyActivity("EXERCISE"));
+        fm.addActiviy(new MyActivity("SLEEP"));
+
 
         mainTimerFrag = new TimerFragment(); mainTimerFrag.setFileManager(fm);
         mainGraphFrag = new GraphFragment();

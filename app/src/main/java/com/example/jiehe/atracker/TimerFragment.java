@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AccelerateDecelerateInterpolator;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
 import android.widget.Spinner;
@@ -38,6 +39,7 @@ public class TimerFragment extends Fragment {
      */
     public TimerFragment(){
       isRecording = false;
+      myRecord = new SingleActivityRecord();
       myConverter = new TimeConverter();
       mHandler = new Handler(){
         public void handleMessage(Message msg){
@@ -63,7 +65,6 @@ public class TimerFragment extends Fragment {
         View view = inflater.inflate(R.layout.frag_timer, container, false);
 
         //get all the UI components
-        mySpinner = (Spinner)view.findViewById(R.id.activitySpinner);
         lblRecord = (TextView)view.findViewById(R.id.lblRecord);
         lblDuration = (TextView)view.findViewById(R.id.lblTime);
         btnRecord = (ImageButton) view.findViewById(R.id.btnRecord);
@@ -73,14 +74,27 @@ public class TimerFragment extends Fragment {
                 btnRecordClick();
             }
         });
-
+        mySpinner = (Spinner)view.findViewById(R.id.activitySpinner);
+        //add selection listener
         //add default activities.
         //will remove this and load from database when complete
-        ArrayList<String> activityList = new ArrayList<String>();
-        activityList.add("WORKING");
-        activityList.add("STUDYING");
-        activityList.add("GAMING");
-        activityList.add("MORE..");
+        mySpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                if(mySpinner.getSelectedItem().toString().equals("Create New...")){
+                    //do the new activity business
+                    Log.d("Spinner Selection", "Create New Selected");
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+                //shouldnt happen.
+            }
+        });
+
+        ArrayList<String> activityList = fm.getActivityNames();
+        activityList.add("Create New...");
 
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(
                 getActivity(), R.layout.spinner_item, activityList);
@@ -122,6 +136,8 @@ public class TimerFragment extends Fragment {
         }else{
             //make a new record
             myRecord = new SingleActivityRecord();
+            myRecord.setActivity_id(fm.getActivityID(mySpinner.getSelectedItem().toString()));
+            Log.d("ACT ID", "btnRecordClick: " + myRecord.getActivity_id());
             myRecord.startActivity(); //start the activity
             if(fm != null){
                 fm.addRecord(myRecord);
@@ -132,6 +148,10 @@ public class TimerFragment extends Fragment {
         isRecording = !isRecording;
         //update the labels and lock the spinner
         updateLabelAndSpinner();
+
+    }
+
+    public void startRecord(){
 
     }
 
