@@ -101,9 +101,6 @@ public class TimerFragment extends Fragment {
 
         mySpinner.setAdapter(adapter);
 
-        //update the label incase timer already started.
-        updateLabelAndSpinner();
-
         checkUncompleteRecord();
         return view;
     }
@@ -138,18 +135,23 @@ public class TimerFragment extends Fragment {
     }
 
     public void checkUncompleteRecord(){
+      if(!isRecording) {
         String[] stuff = fm.getDBRecord("SELECT * FROM RECORD_TABLE WHERE END_TIME = '0'");
-        if(stuff != null){
-            startRecording(Integer.parseInt(stuff[1]), Long.parseLong(stuff[2]));
+        if (stuff != null) {
+          try{
+            String[] activity = fm.getDBRecord("SELECT * FROM ACTIVITY_TABLE WHERE ACTIVITY_ID ='" + stuff[1] + "'");
+            mySpinner.setSelection(((ArrayAdapter)mySpinner.getAdapter()).getPosition(activity[1]));
+          }catch (Exception e){
 
-            //change the recording state
-            isRecording = !isRecording;
-            //update the labels and lock the spinner
-            updateLabelAndSpinner();
+          }
+          startRecording(Integer.parseInt(stuff[1]), Long.parseLong(stuff[2]));
+          //change the recording state
+          isRecording = !isRecording;
+          //update the labels and lock the spinner
         }
-
+      }
+      updateLabelAndSpinner();
     }
-
 
     public void startRecording(int act_id, Long start_Time){
         //make a new record
