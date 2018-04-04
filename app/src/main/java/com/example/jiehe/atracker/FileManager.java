@@ -191,11 +191,13 @@ public class FileManager extends SQLiteOpenHelper {
    * @param sarNew
    *  the new record
    */
+
   public void updateRecord(SingleActivityRecord sarOld, SingleActivityRecord sarNew){
     deleteRecord(sarOld);
     addRecord(sarNew);
   }
 
+  //debug stuff ----V
   public String recordToString(){
     String dbString = "";
     TimeConverter TC = new TimeConverter();
@@ -211,6 +213,7 @@ public class FileManager extends SQLiteOpenHelper {
       long etimeMills = c.getLong(c.getColumnIndex(TABLE_RECORDS_COLUMN_END_TIME));
       dbString += id + " : " + c.getString(c.getColumnIndex(TABLE_RECORDS_COLUMN_ACTIVITY_ID)) + "start: " + TC.getTimeString(stimeMills, true)  + " -- end: " + TC.getTimeString(etimeMills, true);
       dbString += "\n";
+
     }
     c.close();
     db.close();
@@ -259,5 +262,25 @@ public class FileManager extends SQLiteOpenHelper {
     db.execSQL("DELETE FROM " + TABLE_RECORDS + " WHERE 1;");
     db.execSQL("DELETE FROM " + TABLE_ACTIVITY + " WHERE 1;");
     db.close();
+  }
+
+  public String[] getDBRecord(String sql_Query){
+    String dbRecord[] = {};
+    String dbContent = "";
+
+    SQLiteDatabase db = this.getWritableDatabase();
+    Cursor c = db.rawQuery(sql_Query, null);
+    c.moveToFirst();
+    if(c.getCount() !=0){
+      for(int i = 0; i < c.getColumnCount(); i++){
+        dbContent = dbContent + c.getString(i) + ",";
+      }
+      if(dbContent.length() > 0){
+        dbContent = dbContent.substring(0, dbContent.length() - 1);
+      }
+      dbRecord = dbContent.split(",");
+      return dbRecord;
+    }
+    return null;
   }
 }

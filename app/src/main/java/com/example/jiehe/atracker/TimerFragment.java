@@ -104,6 +104,7 @@ public class TimerFragment extends Fragment {
         //update the label incase timer already started.
         updateLabelAndSpinner();
 
+        checkUncompleteRecord();
         return view;
     }
 
@@ -126,33 +127,59 @@ public class TimerFragment extends Fragment {
 
         //what to do when its recording
         if(isRecording){ //stop the thread
-            timeThread.interrupt();
-            myRecord.endActivity(); //stop activity
-            //save this activity after; maybe pass to super class and deal with it
-            if(fm != null){ //add to database
-                fm.updateRecord(myRecord, myRecord);
-            }
-
+            stopRecording();
         }else{
-            //make a new record
-            myRecord = new SingleActivityRecord();
-            myRecord.setActivity_id(fm.getActivityID(mySpinner.getSelectedItem().toString()));
-            Log.d("ACT ID", "btnRecordClick: " + myRecord.getActivity_id());
-            myRecord.startActivity(); //start the activity
-            if(fm != null){
-                fm.addRecord(myRecord);
-            }
-            createTimeThread(); //start the thread
+           startRecording(-1,Long.MIN_VALUE);
         }
         //change the recording state
         isRecording = !isRecording;
         //update the labels and lock the spinner
         updateLabelAndSpinner();
+    }
+
+    public void checkUncompleteRecord(){
+        String[] stuff = fm.getDBRecord("SELECT * FROM RECORD_TABLE WHERE END_TIME = '0'");
+        if(stuff != null){
+            startRecording(Integer.parseInt(stuff[1]), Long.parseLong(stuff[2]));
+
+            //change the recording state
+            isRecording = !isRecording;
+            //update the labels and lock the spinner
+            updateLabelAndSpinner();
+        }
 
     }
 
-    public void startRecord(){
 
+    public void startRecording(int act_id, Long start_Time){
+        //make a new record
+        myRecord = new SingleActivityRecord();
+        if(act_id < 0){
+            myRecord.setActivity_id(fm.getActivityID(mySpinner.getSelectedItem().toString()));
+        }else{
+            myRecord.setActivity_id(act_id);
+        }
+
+        Log.d("ACT ID", "btnRecordClick: " + myRecord.getActivity_id());
+        myRecord.startActivity(); //start the activity
+
+        if(start_Time >=0 ){
+            myRecord.setStartTime(start_Time);
+        }else{
+            //all that necessary stuff/
+            if(fm != null){
+                fm.addRecord(myRecord);
+            }
+        }
+        createTimeThread(); //start the thread
+    }
+    public void stopRecording(){
+        timeThread.interrupt();
+        myRecord.endActivity(); //stop activity
+        //save this activity after; maybe pass to super class and deal with it
+        if(fm != null){ //add to database
+            fm.updateRecord(myRecord, myRecord);
+        }
     }
 
     /**

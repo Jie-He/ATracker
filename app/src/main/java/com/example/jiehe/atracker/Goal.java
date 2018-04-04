@@ -38,12 +38,7 @@ public class Goal {
         if(aob && value>= goal) {
             return true;
         }
-        else if(aob == false && value <= goal) {
-            return true;
-        }
-        else {
-            return false;
-        }
+        else return aob == false && value <= goal;
     }
 
 }

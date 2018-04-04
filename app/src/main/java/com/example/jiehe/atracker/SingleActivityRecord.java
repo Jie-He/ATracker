@@ -29,6 +29,10 @@ public class SingleActivityRecord {
         }
     }
 
+    public void setStartTime(Long time){
+        startTime = time;
+    }
+
     public void endActivity(){
         if(isRunning){
             endTime = System.currentTimeMillis();
@@ -46,7 +50,7 @@ public class SingleActivityRecord {
 
     public long getDuration(){
         if(isRunning){
-            return (long)System.currentTimeMillis() - startTime;
+            return System.currentTimeMillis() - startTime;
         }
 
         return endTime - startTime;
