@@ -197,6 +197,37 @@ public class FileManager extends SQLiteOpenHelper {
     addRecord(sarNew);
   }
 
+  public ArrayList<MyActivity> getActivity(){
+    ArrayList<MyActivity> aActivity = new ArrayList<>();
+    SQLiteDatabase db = this.getWritableDatabase();
+    String query = "SELECT * FROM " + TABLE_ACTIVITY + " ";
+    //cursor points to a location in your result;
+    Cursor c =  db.rawQuery(query, null);
+    //move to first row
+    MyActivity newAct;
+    Goal newGoal;
+    while(c.moveToNext()){
+      String name = c.getString(c.getColumnIndex(TABLE_ACTIVITY_COLUMN_NAME));
+      int aob = c.getInt(c.getColumnIndex(TABLE_ACTIVITY_COLUMN_GOAL_MODE));
+      int goal = c.getInt(c.getColumnIndex(TABLE_ACITVITY_COLUMN_GOAL_DAILY));
+
+      newGoal = new Goal();
+
+      if(aob ==1){
+
+        newGoal.setGoal(goal, true);
+      }else{
+        newGoal.setGoal(goal, false);
+      }
+
+      newAct = new MyActivity(name, newGoal);
+      aActivity.add(newAct);
+    }
+    c.close();
+    db.close();
+    return aActivity;
+  }
+
   //debug stuff ----V
   public String recordToString(){
     String dbString = "";
