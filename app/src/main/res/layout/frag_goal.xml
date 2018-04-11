@@ -10,10 +10,12 @@
         android:orientation="horizontal">
 
         <android.support.design.widget.FloatingActionButton
+            android:id="@+id/addactivity"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
 
         <android.support.design.widget.FloatingActionButton
+            android:id="@+id/addactivity2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
 
@@ -21,14 +23,30 @@
     </android.support.v7.widget.LinearLayoutCompat>
 
     <EditText
+        android:id="@+id/namebox"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:ems="10"
         android:inputType="textPersonName"
         android:text="Name" />
 
+    <EditText
+        android:id="@+id/goalbox"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:text="Goal" />
+
+    <CheckBox
+        android:id="@+id/limitcheck"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Limit" />
+
     <ListView
-        android:layout_width="211dp"
+        android:id="@+id/listview1"
+        android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
 </LinearLayout>

@@ -58,7 +58,7 @@ public class MainActivity extends AppCompatActivity {
         mainTimerFrag = new TimerFragment(); mainTimerFrag.setFileManager(fm);
         mainGraphFrag = new GraphFragment();
         mainSettingFrag = new SettingFragment();
-        mainGoalFrag = new GoalFragment();
+        mainGoalFrag = new GoalFragment(); mainGoalFrag.setFM(fm);
         mainRecordsFrag = new RecordsFragment();
         mainDebugFrag = new DebugFragment(); mainDebugFrag.setFileManager(fm);
 
