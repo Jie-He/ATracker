@@ -93,11 +93,17 @@ public class TimerFragment extends Fragment {
             }
         });
 
-        ArrayList<String> activityList = fm.getActivityNames();
-        activityList.add("Create New...");
+        ArrayList<MyActivity> activityList = fm.getActivity();
+        ArrayList<String> activityNames = new ArrayList<>();
+
+        for(MyActivity ma : activityList){
+          activityNames.add(ma.getName());
+        }
+
+        activityNames.add("Create New...");
 
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(
-                getActivity(), R.layout.spinner_item, activityList);
+                getActivity(), R.layout.spinner_item, activityNames);
 
         mySpinner.setAdapter(adapter);
 
@@ -204,15 +210,13 @@ public class TimerFragment extends Fragment {
     public void createTimeThread(){
         timeThread = new Thread(){
             public void run(){
-                boolean flipflop = true;
                 while(true){
                     try{
-                      String time = myConverter.getTimeString(myRecord.getDuration(), flipflop);
+                      String time = myConverter.getTimeString(myRecord.getDuration());
                       Message msg = Message.obtain();
                       msg.obj = time;
                       msg.setTarget(mHandler);
                       msg.sendToTarget();
-                      flipflop = !flipflop;
                       Thread.sleep(500); //sleep for half of a second
                     } catch (InterruptedException e){
                       return;

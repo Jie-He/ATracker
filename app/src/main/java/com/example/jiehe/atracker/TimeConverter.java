@@ -1,5 +1,7 @@
 package com.example.jiehe.atracker;
 
+import java.util.Date;
+
 /**
  * Created by jiehe on 14/03/2018.
  */
@@ -70,7 +72,7 @@ public class TimeConverter {
      * @return
      *  string in that format
      */
-    public String getTimeString(long milli, boolean useDot){
+    public String getTimeString(long milli){
         String duration = "";
 
         /*if time is more than a day then include day*/
@@ -96,12 +98,12 @@ public class TimeConverter {
 
 
         //add hour minute seconds
-        if(useDot){
-            duration = day + hour + ":" + minute + ":" + second;
-        }else{
-            duration = day + hour + " " + minute + " " + second;
-        }
+         duration = day + hour + ":" + minute + ":" + second;
         return duration;
     }
+    public String getDateTimeString(long milli){
+        Date date = new Date(milli);
 
+        return  date.getDate() + "/" + (date.getMonth() + 1) + " " + date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds();
+    }
 }
