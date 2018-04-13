@@ -23,6 +23,7 @@ public class DebugFragment extends Fragment {
     //just for test
     private TextView txtRecord;
     private EditText txtInput;
+    private EditText txtInput2;
     private Button btnClear;
     private Button btnLoad;
     private Button btnAdd;
@@ -35,6 +36,7 @@ public class DebugFragment extends Fragment {
         //load up the text view;
         txtRecord = (TextView)view.findViewById(R.id.txtRecords);
         txtInput = (EditText) view.findViewById(R.id.txtDebugInput);
+        txtInput2 = (EditText) view.findViewById(R.id.txtDebugInput);
         btnLoad = (Button)view.findViewById(R.id.btnLoad);
         btnLoad.setOnClickListener(new View.OnClickListener() {
             @Override
