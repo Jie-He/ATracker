@@ -6,4 +6,10 @@
     android:weightSum="1"
     android:gravity="center_horizontal">
 
+    <com.github.mikephil.charting.charts.LineChart
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/lineChartExample">
+    </com.github.mikephil.charting.charts.LineChart>
+
 </LinearLayout>
