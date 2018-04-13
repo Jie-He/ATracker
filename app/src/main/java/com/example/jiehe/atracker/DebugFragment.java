@@ -12,6 +12,8 @@ import android.widget.TextView;
 
 import org.w3c.dom.Text;
 
+import java.util.ArrayList;
+
 /**
  * Created by jiehe on 12/03/2018.
  */
@@ -42,7 +44,17 @@ public class DebugFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 if(fm != null){
-                    String result = fm.recordToString() + "\n" + fm.activityToString();
+                    TimeConverter tc = new TimeConverter();
+                    String result = "";
+                    ArrayList<MyActivity> act = fm.getActivity();
+                    for(MyActivity a : act){
+                        result += a.getName() + "\n";
+                    }
+                    ArrayList<SingleActivityRecord> sar = fm.getRecords(0, Long.MAX_VALUE);
+
+                    for(SingleActivityRecord s : sar){
+                        result += s.getActivity_id() + " : " + tc.getDateTimeString(s.getStartTime()) + " -=- " + tc.getTimeString(s.getDuration()) + "\n";
+                    }
                     txtRecord.setText(result);
                 }
             }
