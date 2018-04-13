@@ -21,6 +21,13 @@ public class SingleActivityRecord {
         endTime = 0;
     }
 
+    public SingleActivityRecord(int aID, long sTime, long eTime){
+        isRunning = false;
+        activity_id = aID;
+        startTime = sTime;
+        endTime = eTime;
+    }
+
     public void startActivity(){
         if(!isRunning){
             startTime = System.currentTimeMillis();
@@ -53,7 +60,7 @@ public class SingleActivityRecord {
             return System.currentTimeMillis() - startTime;
         }
 
-        return endTime - startTime;
+        return Math.abs(endTime - startTime);
     }
 
     public int getActivity_id(){

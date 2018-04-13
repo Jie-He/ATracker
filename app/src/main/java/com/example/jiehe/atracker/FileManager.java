@@ -26,23 +26,23 @@ public class FileManager extends SQLiteOpenHelper {
   private static final String DATABASE_NAME = "ATracker.db";
 
   //TABLE FOR THE RECORDS
-  private final String TABLE_RECORDS = "RECORD_TABLE";
-  private final String TABLE_RECORDS_COLUMN_ID = "ID";
+  private static final String TABLE_RECORDS = "RECORD_TABLE";
+  private static final String TABLE_RECORDS_COLUMN_ID = "ID";
   //the id that links to the activity in activity table
-  private final String TABLE_RECORDS_COLUMN_ACTIVITY_ID = "ACTIVITY_ID";
+  private static final String TABLE_RECORDS_COLUMN_ACTIVITY_ID = "ACTIVITY_ID";
   //the integer that stores the start time in milliseconds
-  private final String TABLE_RECORDS_COLUMN_START_TIME = "START_TIME";
+  private static final String TABLE_RECORDS_COLUMN_START_TIME = "START_TIME";
   //the integer that stores the end time in milliseconds
-  private final String TABLE_RECORDS_COLUMN_END_TIME = "END_TIME";
+  private static final String TABLE_RECORDS_COLUMN_END_TIME = "END_TIME";
 
   //TABLE FOR THE ACTIVITY (THE NAMES)
-  private final String TABLE_ACTIVITY = "ACTIVITY_TABLE";
-  private final String TABLE_ACTIVITY_COLUMN_ID = "ACTIVITY_ID";
-  private final String TABLE_ACTIVITY_COLUMN_NAME = "ACTIVITY_NAME";
+  private static final String TABLE_ACTIVITY = "ACTIVITY_TABLE";
+  private static final String TABLE_ACTIVITY_COLUMN_ID = "ACTIVITY_ID";
+  private static final String TABLE_ACTIVITY_COLUMN_NAME = "ACTIVITY_NAME";
   //the integer that stores the length of a activity
-  private final String TABLE_ACITVITY_COLUMN_GOAL_DAILY = "GOAL_DAILY";
+  private static final String TABLE_ACITVITY_COLUMN_GOAL_DAILY = "GOAL_DAILY";
   //the integer that indicate whether or not to pass the goal. e.g "0 = not to reach goal" "1 = need to reach goal"
-  private final String TABLE_ACTIVITY_COLUMN_GOAL_MODE = "GOAL_MODE";
+  private static final String TABLE_ACTIVITY_COLUMN_GOAL_MODE = "GOAL_MODE";
 
   public FileManager(Context context, SQLiteDatabase.CursorFactory factory) {
     super(context, DATABASE_NAME, factory, DATABASE_VERSION);
@@ -228,61 +228,25 @@ public class FileManager extends SQLiteOpenHelper {
     return aActivity;
   }
 
-  //debug stuff ----V
-  public String recordToString(){
-    String dbString = "";
-    TimeConverter TC = new TimeConverter();
+  public ArrayList<SingleActivityRecord> getRecords(long minDate, long maxDate){
+    ArrayList<SingleActivityRecord> sSAR = new ArrayList<>();
     SQLiteDatabase db = this.getWritableDatabase();
-    String query = "SELECT * FROM " + TABLE_RECORDS + " ";
+    String query = "SELECT * FROM " + TABLE_RECORDS + " WHERE " + TABLE_RECORDS_COLUMN_START_TIME + " >= '" + minDate + "' AND " + TABLE_RECORDS_COLUMN_END_TIME + " <= '"  + maxDate + "'";
     //cursor points to a location in your result;
     Cursor c =  db.rawQuery(query, null);
     //move to first row
-
+    SingleActivityRecord sar;
     while(c.moveToNext()){
-      int id = c.getInt(c.getColumnIndex(TABLE_RECORDS_COLUMN_ID));
-      long stimeMills = c.getLong(c.getColumnIndex(TABLE_RECORDS_COLUMN_START_TIME));
-      long etimeMills = c.getLong(c.getColumnIndex(TABLE_RECORDS_COLUMN_END_TIME));
-      dbString += id + " : " + c.getString(c.getColumnIndex(TABLE_RECORDS_COLUMN_ACTIVITY_ID)) + "start: " + TC.getTimeString(stimeMills, true)  + " -- end: " + TC.getTimeString(etimeMills, true);
-      dbString += "\n";
+      int activityID = c.getInt(c.getColumnIndex(TABLE_RECORDS_COLUMN_ACTIVITY_ID));
+      long startTime = c.getLong(c.getColumnIndex(TABLE_RECORDS_COLUMN_START_TIME));
+      long endTime = c.getLong(c.getColumnIndex(TABLE_RECORDS_COLUMN_END_TIME));
 
+      sar = new SingleActivityRecord(activityID, startTime, endTime);
+      sSAR.add(sar);
     }
     c.close();
     db.close();
-    return dbString;
-  }
-
-  public String activityToString(){
-    String dbString = "";
-    SQLiteDatabase db = this.getWritableDatabase();
-    String query = "SELECT * FROM " + TABLE_ACTIVITY + " ";
-    //cursor points to a location in your result;
-    Cursor c =  db.rawQuery(query, null);
-    //move to first row
-
-    while(c.moveToNext()){
-      String aName = c.getString(c.getColumnIndex(TABLE_ACTIVITY_COLUMN_NAME));
-      int aId = c.getInt(c.getColumnIndex(TABLE_ACTIVITY_COLUMN_ID));
-      dbString += aId + " : " + aName + "\n";
-    }
-    c.close();
-    db.close();
-    return dbString;
-  }
-
-  public ArrayList<String> getActivityNames(){
-    ArrayList<String> aNames = new ArrayList<>();
-    SQLiteDatabase db = this.getWritableDatabase();
-    String query = "SELECT * FROM " + TABLE_ACTIVITY + " ";
-    //cursor points to a location in your result;
-    Cursor c =  db.rawQuery(query, null);
-    //move to first row
-
-    while(c.moveToNext()){
-      aNames.add(c.getString(c.getColumnIndex(TABLE_ACTIVITY_COLUMN_NAME)));
-    }
-    c.close();
-    db.close();
-    return aNames;
+    return sSAR;
   }
 
   /***
@@ -295,6 +259,7 @@ public class FileManager extends SQLiteOpenHelper {
     db.close();
   }
 
+  //keep
   public String[] getDBRecord(String sql_Query){
     String dbRecord[] = {};
     String dbContent = "";
