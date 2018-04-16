@@ -58,7 +58,7 @@ public class GraphFragment extends Fragment {
 
     //convert into lineDataSet
     LineDataSet dataSet = new LineDataSet(entries, "Demo");
-    //set colour... they want int as param.. so i stick 2 in
+    //set colour... they want int as param .. so i stick 2 in
     dataSet.setCircleColor(2);
     dataSet.setValueTextColor(2);
 
