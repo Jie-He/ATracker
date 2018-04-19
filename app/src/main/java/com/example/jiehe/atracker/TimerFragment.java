@@ -5,6 +5,8 @@ import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
 import android.support.annotation.Nullable;
+import android.support.design.widget.Snackbar;
+import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -19,7 +21,7 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
-public class TimerFragment extends Fragment {
+public class TimerFragment extends Fragment{
     private Spinner mySpinner;
     private ImageButton btnRecord;
     private TextView lblRecord;
@@ -33,6 +35,7 @@ public class TimerFragment extends Fragment {
 
     private FileManager fm;
     private final Handler mHandler;
+    public NewActivity na;
     /**
      * Constructor.
      * Set the isRecording variable and the Timer.
@@ -84,6 +87,8 @@ public class TimerFragment extends Fragment {
                 if(mySpinner.getSelectedItem().toString().equals("Create New...")){
                     //do the new activity business
                     Log.d("Spinner Selection", "Create New Selected");
+                    na = new NewActivity();
+                    na.show(getFragmentManager(), "New Activity!");
                 }
             }
 
@@ -93,11 +98,18 @@ public class TimerFragment extends Fragment {
             }
         });
 
+        loadNameIntoSpinner();
+
+        checkUncompleteRecord();
+        return view;
+    }
+
+    void loadNameIntoSpinner(){
         ArrayList<MyActivity> activityList = fm.getActivity();
         ArrayList<String> activityNames = new ArrayList<>();
 
         for(MyActivity ma : activityList){
-          activityNames.add(ma.getName());
+            activityNames.add(ma.getName());
         }
 
         activityNames.add("Create New...");
@@ -106,9 +118,6 @@ public class TimerFragment extends Fragment {
                 getActivity(), R.layout.spinner_item, activityNames);
 
         mySpinner.setAdapter(adapter);
-
-        checkUncompleteRecord();
-        return view;
     }
 
     /**
@@ -124,20 +133,27 @@ public class TimerFragment extends Fragment {
      * Record button press.
      */
     public void btnRecordClick(){
-        //rotation animation.. probs remove when button texture made
-        float deg = btnRecord.getRotation() + 90F;
-        btnRecord.animate().rotation(deg).setInterpolator(new AccelerateDecelerateInterpolator());
+        if(!mySpinner.getSelectedItem().toString().equals("Create New...")){
+            //rotation animation.. probs remove when button texture made
+            float deg = btnRecord.getRotation() + 90F;
+            btnRecord.animate().rotation(deg).setInterpolator(new AccelerateDecelerateInterpolator());
 
-        //what to do when its recording
-        if(isRecording){ //stop the thread
-            stopRecording();
+            //what to do when its recording
+            if(isRecording){ //stop the thread
+                stopRecording();
+            }else{
+                startRecording(-1,Long.MIN_VALUE);
+            }
+            //change the recording state
+            isRecording = !isRecording;
+            //update the labels and lock the spinner
+            updateLabelAndSpinner();
         }else{
-           startRecording(-1,Long.MIN_VALUE);
+            Snackbar s = Snackbar.make(getView(), "Please pick an activity!", Snackbar.LENGTH_LONG);
+            s.show();
         }
-        //change the recording state
-        isRecording = !isRecording;
-        //update the labels and lock the spinner
-        updateLabelAndSpinner();
+
+
     }
 
     public void checkUncompleteRecord(){
@@ -226,4 +242,5 @@ public class TimerFragment extends Fragment {
         };
         timeThread.start();
     }
+
 }

@@ -1,5 +1,7 @@
 package com.example.jiehe.atracker;
 
+import android.support.design.widget.Snackbar;
+import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -13,7 +15,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements NewActivity.NewActivityListener{
 
     private boolean DEV_MODE = true;
 
@@ -146,5 +148,26 @@ public class MainActivity extends AppCompatActivity {
         FragmentTransaction transaction = fm.beginTransaction();
         transaction.replace(R.id.active_frag, target);
         transaction.commit();
+    }
+
+    @Override
+    public void onDialogPositiveClick(NewActivity dialog) {
+        if(dialog != null){
+            Goal g = new Goal();
+            g.setGoal(dialog.hours, dialog.aob);
+            MyActivity ma = new MyActivity(mainTimerFrag.na.name.toUpperCase(), g);
+            fm.addActiviy(ma);
+
+            try{
+                mainTimerFrag.loadNameIntoSpinner();
+            }catch (Exception e){
+
+            }
+        }
+    }
+
+    @Override
+    public void onDialogNegativeClick(NewActivity dialog) {
+
     }
 }
