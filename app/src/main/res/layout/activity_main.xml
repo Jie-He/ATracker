@@ -6,128 +6,135 @@
     android:layout_height="match_parent"
     tools:context="com.example.jiehe.atracker.MainActivity">
 
-    <RelativeLayout
-        android:layout_width="@dimen/sideBarTickness"
-        android:layout_height="match_parent"
-        android:background="@drawable/shadow">
+    <android.support.design.widget.CoordinatorLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
-        <LinearLayout
-            android:layout_width="@dimen/sideBarInnerTickness"
+        <RelativeLayout
+            android:layout_width="@dimen/sideBarTickness"
             android:layout_height="match_parent"
-            android:background="@drawable/sidepanelgradient"
-            android:orientation="vertical">
-
-            <ImageButton
-                android:layout_width="@dimen/buttonSize"
-                android:layout_height="@dimen/buttonSize"
-                android:layout_marginTop="20dp"
-                android:src="@drawable/timer_place_holder"
-                android:scaleType="fitXY"
-                android:background="@android:color/transparent"
-                android:layout_gravity="center_horizontal|center"
-                android:id="@+id/btnTimer" />
-
-            <ImageButton
-                android:layout_width="@dimen/buttonSize"
-                android:layout_height="@dimen/buttonSize"
-                android:layout_marginTop="20dp"
-                android:src="@drawable/graph_place_holder"
-                android:scaleType="fitXY"
-                android:background="@android:color/transparent"
-                android:layout_gravity="center_horizontal|center"
-                android:id="@+id/btnGraph" />
-
-            <ImageButton
-                android:layout_width="@dimen/buttonSize"
-                android:layout_height="@dimen/buttonSize"
-                android:layout_marginTop="20dp"
-                android:src="@drawable/goal_place_holder"
-                android:scaleType="fitXY"
-                android:background="@android:color/transparent"
-                android:layout_gravity="center_horizontal|center"
-                android:id="@+id/btnGoals" />
-
-            <ImageButton
-                android:layout_width="@dimen/buttonSize"
-                android:layout_height="@dimen/buttonSize"
-                android:layout_marginTop="20dp"
-                android:src="@drawable/records_place_holder"
-                android:scaleType="fitXY"
-                android:background="@android:color/transparent"
-                android:layout_gravity="center_horizontal|center"
-                android:id="@+id/btnRecords" />
-
-            <ImageButton
-                android:layout_width="@dimen/buttonSize"
-                android:layout_height="@dimen/buttonSize"
-                android:layout_marginTop="20dp"
-                android:src="@drawable/debug_place_holder"
-                android:scaleType="fitXY"
-                android:background="@android:color/transparent"
-                android:layout_gravity="center_horizontal|center"
-                android:id="@+id/btnDebug" />
+            android:background="@drawable/shadow">
 
             <LinearLayout
                 android:layout_width="@dimen/sideBarInnerTickness"
-                android:layout_height="0dip"
-                android:layout_weight="1"
-                android:gravity="center|bottom"
+                android:layout_height="match_parent"
+                android:background="@drawable/sidepanelgradient"
                 android:orientation="vertical">
 
                 <ImageButton
                     android:layout_width="@dimen/buttonSize"
                     android:layout_height="@dimen/buttonSize"
-                    android:layout_marginBottom="20dp"
-                    android:src="@drawable/setting_place_holder"
+                    android:layout_marginTop="20dp"
+                    android:src="@drawable/timer_place_holder"
                     android:scaleType="fitXY"
                     android:background="@android:color/transparent"
                     android:layout_gravity="center_horizontal|center"
-                    android:id="@+id/btnSetting" />
+                    android:id="@+id/btnTimer" />
+
+                <ImageButton
+                    android:layout_width="@dimen/buttonSize"
+                    android:layout_height="@dimen/buttonSize"
+                    android:layout_marginTop="20dp"
+                    android:src="@drawable/graph_place_holder"
+                    android:scaleType="fitXY"
+                    android:background="@android:color/transparent"
+                    android:layout_gravity="center_horizontal|center"
+                    android:id="@+id/btnGraph" />
+
+                <ImageButton
+                    android:layout_width="@dimen/buttonSize"
+                    android:layout_height="@dimen/buttonSize"
+                    android:layout_marginTop="20dp"
+                    android:src="@drawable/goal_place_holder"
+                    android:scaleType="fitXY"
+                    android:background="@android:color/transparent"
+                    android:layout_gravity="center_horizontal|center"
+                    android:id="@+id/btnGoals" />
+
+                <ImageButton
+                    android:layout_width="@dimen/buttonSize"
+                    android:layout_height="@dimen/buttonSize"
+                    android:layout_marginTop="20dp"
+                    android:src="@drawable/records_place_holder"
+                    android:scaleType="fitXY"
+                    android:background="@android:color/transparent"
+                    android:layout_gravity="center_horizontal|center"
+                    android:id="@+id/btnRecords" />
+
+                <ImageButton
+                    android:layout_width="@dimen/buttonSize"
+                    android:layout_height="@dimen/buttonSize"
+                    android:layout_marginTop="20dp"
+                    android:src="@drawable/debug_place_holder"
+                    android:scaleType="fitXY"
+                    android:background="@android:color/transparent"
+                    android:layout_gravity="center_horizontal|center"
+                    android:id="@+id/btnDebug" />
+
+                <LinearLayout
+                    android:layout_width="@dimen/sideBarInnerTickness"
+                    android:layout_height="0dip"
+                    android:layout_weight="1"
+                    android:gravity="center|bottom"
+                    android:orientation="vertical">
+
+                    <ImageButton
+                        android:layout_width="@dimen/buttonSize"
+                        android:layout_height="@dimen/buttonSize"
+                        android:layout_marginBottom="20dp"
+                        android:src="@drawable/setting_place_holder"
+                        android:scaleType="fitXY"
+                        android:background="@android:color/transparent"
+                        android:layout_gravity="center_horizontal|center"
+                        android:id="@+id/btnSetting" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+        </RelativeLayout>
+
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="@dimen/sideBarTickness">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/titlebar"
+                android:background="@color/IconBkg"
+                android:gravity="center_horizontal">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Nothing here..."
+                    android:textColor="#ffff"
+                    android:textSize="24dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:id="@+id/titleBarLabel"/>
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:layout_below="@id/titlebar">
+
+                <FrameLayout
+                    android:id="@+id/active_frag"
+                    android:name="com.example.jiehe.atracker.TimerFragment"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignParentTop="true" />
 
             </LinearLayout>
 
-        </LinearLayout>
-    </RelativeLayout>
 
+        </RelativeLayout>
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginLeft="@dimen/sideBarTickness">
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/titlebar"
-            android:background="@color/IconBkg"
-            android:gravity="center_horizontal">
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Nothing here..."
-                android:textColor="#ffff"
-                android:textSize="24dp"
-                android:layout_marginTop="10dp"
-                android:layout_marginBottom="10dp"
-                android:id="@+id/titleBarLabel"/>
-        </LinearLayout>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical"
-            android:layout_below="@id/titlebar">
+    </android.support.design.widget.CoordinatorLayout>
 
-            <FrameLayout
-                android:id="@+id/active_frag"
-                android:name="com.example.jiehe.atracker.TimerFragment"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_alignParentStart="true"
-                android:layout_alignParentTop="true" />
-
-        </LinearLayout>
-
-
-    </RelativeLayout>
 
 
 </android.support.constraint.ConstraintLayout>

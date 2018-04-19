@@ -228,10 +228,16 @@ public class FileManager extends SQLiteOpenHelper {
     return aActivity;
   }
 
-  public ArrayList<SingleActivityRecord> getRecords(long minDate, long maxDate){
+  public ArrayList<SingleActivityRecord> getRecords(long minDate, long maxDate, String activityName){
     ArrayList<SingleActivityRecord> sSAR = new ArrayList<>();
     SQLiteDatabase db = this.getWritableDatabase();
-    String query = "SELECT * FROM " + TABLE_RECORDS + " WHERE " + TABLE_RECORDS_COLUMN_START_TIME + " >= '" + minDate + "' AND " + TABLE_RECORDS_COLUMN_END_TIME + " <= '"  + maxDate + "'";
+    String query = "";
+    if(activityName.length() > 0){
+      query = "SELECT * FROM " + TABLE_RECORDS + " WHERE " +  TABLE_RECORDS_COLUMN_ACTIVITY_ID + "='"+getActivityID(activityName)+"' AND " + TABLE_RECORDS_COLUMN_START_TIME + " >= '" + minDate + "' AND " + TABLE_RECORDS_COLUMN_END_TIME + " <= '"  + maxDate + "'";
+    }else{
+      query = "SELECT * FROM " + TABLE_RECORDS + " WHERE " + TABLE_RECORDS_COLUMN_START_TIME + " >= '" + minDate + "' AND " + TABLE_RECORDS_COLUMN_END_TIME + " <= '"  + maxDate + "'";
+    }
+
     //cursor points to a location in your result;
     Cursor c =  db.rawQuery(query, null);
     //move to first row

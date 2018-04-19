@@ -6,10 +6,55 @@
     android:weightSum="1"
     android:gravity="center_horizontal">
 
-    <com.github.mikephil.charting.charts.LineChart
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="From:"
+            android:textSize="20dp"
+            android:layout_marginTop="10dp"/>
+
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Pick"
+            android:id="@+id/btnPickDateOne"
+            android:textSize="18dp"
+            android:layout_marginHorizontal="50dp"
+            android:textColor="@color/textshapeback"
+            android:background="@drawable/buttonshape"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="To:"
+            android:textSize="20dp"
+            android:layout_marginTop="10dp"/>
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Pick"
+            android:id="@+id/btnPickDateTwo"
+            android:textSize="18dp"
+            android:layout_marginHorizontal="50dp"
+            android:textColor="@color/textshapeback"
+            android:background="@drawable/buttonshape"/>
+
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Get Graph"
+        android:id="@+id/btnGenGraph"
+        android:textSize="18dp"
+        android:layout_marginHorizontal="50dp"
+        android:textColor="@color/textshapeback"
+        android:background="@drawable/buttonshape"/>
+
+    <com.github.mikephil.charting.charts.BarChart
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/lineChartExample">
-    </com.github.mikephil.charting.charts.LineChart>
+        android:id="@+id/BarChartExample">
+    </com.github.mikephil.charting.charts.BarChart>
 
 </LinearLayout>

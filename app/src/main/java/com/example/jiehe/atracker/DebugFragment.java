@@ -50,7 +50,7 @@ public class DebugFragment extends Fragment {
                     for(MyActivity a : act){
                         result += a.getName() + "\n";
                     }
-                    ArrayList<SingleActivityRecord> sar = fm.getRecords(0, Long.MAX_VALUE);
+                    ArrayList<SingleActivityRecord> sar = fm.getRecords(0, Long.MAX_VALUE, "");
 
                     for(SingleActivityRecord s : sar){
                         result += s.getActivity_id() + " : " + tc.getDateTimeString(s.getStartTime()) + " -=- " + tc.getTimeString(s.getDuration()) + "\n";

@@ -1,10 +1,5 @@
 package com.example.jiehe.atracker;
 
-import android.graphics.Color;
-import android.graphics.drawable.Drawable;
-import android.graphics.drawable.GradientDrawable;
-import android.graphics.drawable.ShapeDrawable;
-import android.graphics.drawable.shapes.Shape;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -53,7 +48,6 @@ public class MainActivity extends AppCompatActivity {
         fm.addActiviy(new MyActivity("WORK"));
         fm.addActiviy(new MyActivity("EXERCISE"));
         fm.addActiviy(new MyActivity("SLEEP"));
-
 
         mainTimerFrag = new TimerFragment(); mainTimerFrag.setFileManager(fm);
         mainGraphFrag = new GraphFragment(); mainGraphFrag.setFileManager(fm);
