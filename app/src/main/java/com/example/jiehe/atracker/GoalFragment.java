@@ -23,7 +23,6 @@ import java.util.List;
 
 public class GoalFragment extends Fragment{
 
-    private Button btnRemove;
     private Button btnCreate;
     private ListView activityList;
     private FileManager fm;
@@ -42,7 +41,6 @@ public class GoalFragment extends Fragment{
 
         btnCreate = (Button)view.findViewById(R.id.btnAddGoal);
         activityList = (ListView)view.findViewById(R.id.listGoal);
-        activityList.setItemsCanFocus(false);
         btnCreate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
