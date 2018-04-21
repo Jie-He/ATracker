@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:background="@drawable/buttonshape"
+    android:paddingLeft="20dp">
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Activity Name"
+        android:textSize="25dp"
+        android:textColor="@color/colorPrimary"
+        android:id="@+id/custom_activity_name"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Goal: "
+            android:layout_gravity="left"
+            android:textSize="20dp"
+            android:paddingTop="10dp"
+            android:textColor="@color/colorPrimary"/>
+
+        <EditText
+            android:id="@+id/custom_goal_edit"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:textSize="20dp"
+            android:textColor="@color/colorPrimary"
+            android:text="xx hour"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Hours"
+            android:layout_gravity="right"
+            android:textSize="20dp"
+            android:paddingTop="10dp"
+            android:textColor="@color/colorPrimary"
+            android:id="@+id/custom_goal"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_gravity="center">
+
+        <android.support.v7.widget.AppCompatCheckBox
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Limit"
+        android:textColor="@color/colorPrimary"
+        android:id="@+id/custom_limit"/>
+
+        <android.support.v7.widget.AppCompatButton
+            android:layout_width="wrap_content"
+            android:layout_height="25dp"
+            android:text="Update"
+            android:textColor="@color/colorPrimary"
+            android:background="@drawable/sidepanelgradient"
+            android:layout_marginLeft="30dp"
+            android:id="@+id/btn_custom_update"/>
+
+        <android.support.v7.widget.AppCompatButton
+            android:layout_width="wrap_content"
+            android:layout_height="25dp"
+            android:text="Remove"
+            android:textColor="@color/colorPrimary"
+            android:background="@color/colorAccent"
+            android:layout_marginLeft="10dp"
+            android:id="@+id/btn_custom_remove"/>
+    </LinearLayout>
+
+
+
+
+
+</LinearLayout>

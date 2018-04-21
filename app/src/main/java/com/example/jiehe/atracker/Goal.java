@@ -14,10 +14,6 @@ public class Goal {
         goal = 0;
         aob = true;
     }
-
-    public Goal getGoal() {
-        return this;
-    }
     public int getActualGoal() {
         return goal;
     }

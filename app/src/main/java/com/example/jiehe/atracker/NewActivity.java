@@ -62,7 +62,7 @@ public class NewActivity extends DialogFragment {
                         Snackbar s;
                         Log.d("New Activity", "We Tried!");
                         if(input1.getText().toString().length() > 0){
-                            try{
+                           try{
                                 int shours = Integer.parseInt(input2.getText().toString());
                                 if(shours > 24){
                                     hours = 24;
@@ -76,8 +76,7 @@ public class NewActivity extends DialogFragment {
                             }catch (Exception e){
 
                                 mListener.onDialogNegativeClick(NewActivity.this);
-                                s = Snackbar.make(getView(), "◉_◉ : Something wrong...", Snackbar.LENGTH_SHORT);
-                                s.show();
+
                             }
                         }
                     }

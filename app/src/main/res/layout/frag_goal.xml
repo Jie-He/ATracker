@@ -3,14 +3,13 @@
     android:id="@+id/db1_root"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical" >
+    android:orientation="vertical">
 
     <ListView
         android:layout_width="match_parent"
         android:layout_height="0dip"
         android:layout_weight="1"
         android:id="@+id/listGoal">
-
 
     </ListView>
 
@@ -19,25 +18,16 @@
         android:layout_height="0dip"
         android:layout_weight="0.1"
         android:gravity="center|bottom"
-        android:orientation="horizontal" >
+        android:orientation="horizontal">
 
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Remove"
-            android:id="@+id/btnRemoveGoal"
-            android:textSize="18dp"
-            android:layout_marginLeft="50dp"
-            android:textColor="@color/textshapeback"
-            android:background="@drawable/buttonshape"/>
-
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Create"
+            android:text="Create New"
             android:id="@+id/btnAddGoal"
             android:textSize="18dp"
-            android:layout_marginRight="50dp"
+            android:layout_gravity="center"
+            android:paddingHorizontal="20dp"
             android:textColor="@color/textshapeback"
             android:background="@drawable/buttonshape"/>
     </LinearLayout>

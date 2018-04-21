@@ -155,12 +155,17 @@ public class MainActivity extends AppCompatActivity implements NewActivity.NewAc
         if(dialog != null){
             Goal g = new Goal();
             g.setGoal(dialog.hours, dialog.aob);
-            MyActivity ma = new MyActivity(mainTimerFrag.na.name.toUpperCase(), g);
+            MyActivity ma = new MyActivity(dialog.name.toUpperCase(), g);
             fm.addActiviy(ma);
 
             try{
                 mainTimerFrag.loadNameIntoSpinner();
             }catch (Exception e){
+            }
+
+            try{
+                mainGoalFrag.loadActivities();
+            }catch(Exception e){
 
             }
         }
@@ -168,6 +173,7 @@ public class MainActivity extends AppCompatActivity implements NewActivity.NewAc
 
     @Override
     public void onDialogNegativeClick(NewActivity dialog) {
-
+        Snackbar s = Snackbar.make(findViewById(android.R.id.content), "◉_◉ : Something wrong...", Snackbar.LENGTH_SHORT);
+        s.show();
     }
 }

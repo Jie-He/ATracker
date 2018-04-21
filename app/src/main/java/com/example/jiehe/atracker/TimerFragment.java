@@ -86,7 +86,6 @@ public class TimerFragment extends Fragment{
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 if(mySpinner.getSelectedItem().toString().equals("Create New...")){
                     //do the new activity business
-                    Log.d("Spinner Selection", "Create New Selected");
                     na = new NewActivity();
                     na.show(getFragmentManager(), "New Activity!");
                 }

@@ -55,6 +55,5 @@ public class MyActivity {
         }else{
             myGoal.setAob(false);
         }
-
     }
 }

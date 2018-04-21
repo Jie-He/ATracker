@@ -146,12 +146,13 @@ public class FileManager extends SQLiteOpenHelper {
    * Method that updates an exciting activity,
    * e.g. the goal settings...
    * possibly rename the activity
-   * @param activity
+   * @param oldActivity - to be updated
+   * @param newActivity - the new one
    */
-  public void updateActivity(MyActivity activity){
+  public void updateActivity(MyActivity oldActivity, MyActivity newActivity){
     //lmao delete that one and add this one
-    deleteActivity(activity.getName());
-    addActiviy(activity);
+    deleteActivity(oldActivity.getName());
+    addActiviy(newActivity);
   }
 
   /**

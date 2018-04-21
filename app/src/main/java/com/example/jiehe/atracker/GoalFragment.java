@@ -28,7 +28,7 @@ public class GoalFragment extends Fragment{
     private ListView activityList;
     private FileManager fm;
 
-    NewActivity na;
+    public NewActivity na;
 
     public void setFM(FileManager f){
         fm = f;
@@ -41,14 +41,13 @@ public class GoalFragment extends Fragment{
         View view = inflater.inflate(R.layout.frag_goal, container, false);
 
         btnCreate = (Button)view.findViewById(R.id.btnAddGoal);
-        btnRemove = (Button)view.findViewById(R.id.btnRemoveGoal);
         activityList = (ListView)view.findViewById(R.id.listGoal);
-
+        activityList.setItemsCanFocus(false);
         btnCreate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 na = new NewActivity();
-                na.show(getFragmentManager(), "New Activity");
+                na.show(getFragmentManager(), "New Activity!");
             }
         });
 
@@ -59,12 +58,7 @@ public class GoalFragment extends Fragment{
     public void loadActivities(){
         ArrayList<MyActivity> ma = fm.getActivity();
         if(ma.size() > 0 ){
-            List<String> names = new ArrayList<>();
-            for(MyActivity m : ma){
-                names.add(m.getName());
-            }
-
-            ArrayAdapter<String> aAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, names);
+            ActivityAdapter aAdapter = new ActivityAdapter(ma, this.getContext(), fm);
 
             activityList.setAdapter(aAdapter);
         }
