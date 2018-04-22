@@ -11,6 +11,7 @@ import android.content.Context;
 import android.content.ContentValues;
 import android.util.Log;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 /**
@@ -103,6 +104,21 @@ public class FileManager extends SQLiteOpenHelper {
     c.close();
     return myid;
   }
+
+  public String getActivityName(int id){
+    SQLiteDatabase db = this.getWritableDatabase();
+    String query = "SELECT * FROM " + TABLE_ACTIVITY + " WHERE " + TABLE_ACTIVITY_COLUMN_ID + " = '" + id + "'";
+    Cursor c = db.rawQuery(query, null);
+    if(c.getCount() > 0) {
+      c.moveToFirst();
+      String myName = c.getString(c.getColumnIndex(TABLE_ACTIVITY_COLUMN_NAME));
+      c.close();
+      return myName;
+    }else{
+      return "◉_◉ : NULL ";
+    }
+
+  }
   /**
    * this method checks if an Activity Name is already in the database
    * @param activityName
@@ -136,9 +152,14 @@ public class FileManager extends SQLiteOpenHelper {
    *  use this name to delete the one in the database
    */
   public void deleteActivity(String activityName){
-    String query = "DELETE FROM " + TABLE_ACTIVITY + " WHERE " + TABLE_ACTIVITY_COLUMN_NAME + " = \"" + activityName + "\"";
+    //delete all the linked records in table records
     SQLiteDatabase db = this.getWritableDatabase();
+    String query = "DELETE FROM " + TABLE_RECORDS + " WHERE " + TABLE_RECORDS_COLUMN_ACTIVITY_ID + " = \"" +  getActivityID(activityName) + "\"";
     db.execSQL(query);
+    //delete the activity
+    query = "DELETE FROM " + TABLE_ACTIVITY + " WHERE " + TABLE_ACTIVITY_COLUMN_NAME + " = \"" + activityName + "\"";
+    db.execSQL(query);
+
     db.close();
   }
 
@@ -150,9 +171,20 @@ public class FileManager extends SQLiteOpenHelper {
    * @param newActivity - the new one
    */
   public void updateActivity(MyActivity oldActivity, MyActivity newActivity){
+
+    //change the id of all the records.
+    ArrayList<SingleActivityRecord> sar = getRecords(0, Long.MAX_VALUE, oldActivity.getName());
+
     //lmao delete that one and add this one
     deleteActivity(oldActivity.getName());
     addActiviy(newActivity);
+
+    int newID = getActivityID(newActivity.getName());
+    for(SingleActivityRecord s : sar){
+      s.setActivity_id(newID);
+      addRecord(s);
+    }
+
   }
 
   /**
@@ -208,6 +240,7 @@ public class FileManager extends SQLiteOpenHelper {
     MyActivity newAct;
     Goal newGoal;
     while(c.moveToNext()){
+
       String name = c.getString(c.getColumnIndex(TABLE_ACTIVITY_COLUMN_NAME));
       int aob = c.getInt(c.getColumnIndex(TABLE_ACTIVITY_COLUMN_GOAL_MODE));
       int goal = c.getInt(c.getColumnIndex(TABLE_ACITVITY_COLUMN_GOAL_DAILY));
@@ -229,6 +262,17 @@ public class FileManager extends SQLiteOpenHelper {
     return aActivity;
   }
 
+  /**
+   * gets a list of records
+   * @param minDate
+   *  the range of date
+   * @param maxDate
+   *  the max range of date
+   * @param activityName
+   *  use "" to select all, or select a particular activity.
+   * @return
+   * list of records
+   */
   public ArrayList<SingleActivityRecord> getRecords(long minDate, long maxDate, String activityName){
     ArrayList<SingleActivityRecord> sSAR = new ArrayList<>();
     SQLiteDatabase db = this.getWritableDatabase();

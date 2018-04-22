@@ -55,7 +55,7 @@ public class MainActivity extends AppCompatActivity implements NewActivity.NewAc
         mainGraphFrag = new GraphFragment(); mainGraphFrag.setFileManager(fm);
         mainSettingFrag = new SettingFragment();
         mainGoalFrag = new GoalFragment(); mainGoalFrag.setFM(fm);
-        mainRecordsFrag = new RecordsFragment();
+        mainRecordsFrag = new RecordsFragment(); mainRecordsFrag.setFM(fm);
         mainDebugFrag = new DebugFragment(); mainDebugFrag.setFileManager(fm);
 
         lblTitleBar = (TextView)findViewById(R.id.titleBarLabel);

@@ -10,12 +10,11 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ListAdapter;
-import android.widget.TextView;
 
 import java.util.ArrayList;
 
 public class ActivityAdapter extends BaseAdapter implements ListAdapter{
-  private ArrayList<MyActivity> list = new ArrayList<MyActivity>();
+  private ArrayList<MyActivity> list;
   private Context context;
   private FileManager fm;
   public ActivityAdapter(ArrayList<MyActivity> list, Context context, FileManager fm){
@@ -72,15 +71,13 @@ public class ActivityAdapter extends BaseAdapter implements ListAdapter{
           newGoal.setGoal(hour, limitCheck.isChecked());
           MyActivity newActivity = new MyActivity(actName.getText().toString());
           newActivity.setGoal(newGoal);
-          Log.d("ACTIVITY CUSTOM", list.get(i).getName());
-          Log.d("ACTIVITY CUSTOM", actName.getText().toString());
-        Log.d("ACTIVITY CUSTOM", newActivity.getActualGoal() + "");
+
           fm.updateActivity(list.get(i), newActivity);
           list.remove(i);
           list.add(newActivity);
           notifyDataSetChanged();
         }catch (Exception e){
-          Log.d("ACTIVITY CUSTOM", e.toString());
+          Log.d("ACTIVITY CUSTOM", "NOPE");
        }
 
       }
