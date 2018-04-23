@@ -17,7 +17,7 @@ import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity implements NewActivity.NewActivityListener{
 
-    private boolean DEV_MODE = true;
+    private boolean DEV_MODE  = false;
 
     ImageButton btnTimer;
     ImageButton btnGraph;

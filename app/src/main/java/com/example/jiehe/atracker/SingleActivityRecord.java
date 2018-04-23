@@ -56,7 +56,7 @@ public class SingleActivityRecord {
     }
 
     public long getDuration(){
-        if(isRunning){
+        if(isRunning || endTime == 0){
             return System.currentTimeMillis() - startTime;
         }
 
