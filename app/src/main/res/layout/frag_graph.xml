@@ -51,10 +51,10 @@
         android:textColor="@color/textshapeback"
         android:background="@drawable/buttonshape"/>
 
-    <com.github.mikephil.charting.charts.BarChart
+    <com.github.mikephil.charting.charts.CombinedChart
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/BarChartExample">
-    </com.github.mikephil.charting.charts.BarChart>
+    </com.github.mikephil.charting.charts.CombinedChart>
 
 </LinearLayout>
