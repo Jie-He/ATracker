@@ -6,55 +6,71 @@
     android:weightSum="1"
     android:gravity="center_horizontal">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="From:"
-            android:textSize="20dp"
-            android:layout_marginTop="10dp"/>
-
-
         <Button
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Pick"
+            android:text="Select Start Date"
             android:id="@+id/btnPickDateOne"
             android:textSize="18dp"
             android:layout_marginHorizontal="50dp"
             android:textColor="@color/textshapeback"
             android:background="@drawable/buttonshape"/>
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="To:"
-            android:textSize="20dp"
-            android:layout_marginTop="10dp"/>
         <Button
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Pick"
+            android:text="Select End Date"
             android:id="@+id/btnPickDateTwo"
             android:textSize="18dp"
             android:layout_marginHorizontal="50dp"
             android:textColor="@color/textshapeback"
             android:background="@drawable/buttonshape"/>
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Get Graph"
+            android:id="@+id/btnGenGraph"
+            android:textSize="18dp"
+            android:paddingHorizontal="10dp"
+            android:layout_marginHorizontal="5dp"
+            android:textColor="@color/textshapeback"
+            android:background="@drawable/buttonshape"/>
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Get PIE chart"
+            android:id="@+id/btnGenPie"
+            android:textSize="18dp"
+            android:paddingHorizontal="10dp"
+            android:layout_marginHorizontal="5dp"
+            android:textColor="@color/textshapeback"
+            android:background="@drawable/buttonshape"/>
+
+    </LinearLayout>
 
 
-    <Button
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Get Graph"
-        android:id="@+id/btnGenGraph"
-        android:textSize="18dp"
-        android:layout_marginHorizontal="50dp"
-        android:textColor="@color/textshapeback"
-        android:background="@drawable/buttonshape"/>
+        android:layout_height="match_parent">
 
-    <com.github.mikephil.charting.charts.CombinedChart
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/BarChartExample">
-    </com.github.mikephil.charting.charts.CombinedChart>
+        <com.github.mikephil.charting.charts.CombinedChart
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/BarChartExample">
+        </com.github.mikephil.charting.charts.CombinedChart>
+
+        <com.github.mikephil.charting.charts.PieChart
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/PieChatExample">
+
+        </com.github.mikephil.charting.charts.PieChart>
+    </RelativeLayout>
 
 </LinearLayout>

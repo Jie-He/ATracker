@@ -10,8 +10,13 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ListAdapter;
+import android.widget.TextView;
 
+import org.w3c.dom.Text;
+
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Calendar;
 
 public class ActivityAdapter extends BaseAdapter implements ListAdapter{
   private ArrayList<MyActivity> list;
@@ -56,6 +61,24 @@ public class ActivityAdapter extends BaseAdapter implements ListAdapter{
     }
     final CheckBox limitCheck = (CheckBox)view.findViewById(R.id.custom_limit);
     limitCheck.setChecked(list.get(i).getGoal().getAob());
+
+    final TextView lblTimeSpent = (TextView)view.findViewById(R.id.custom_activity_spent);
+
+    //calc the time spent today
+    ArrayList<SingleActivityRecord> sar = new ArrayList<>();
+    long sum = 0;
+    final Calendar c = Calendar.getInstance();
+    c.set(c.get(Calendar.YEAR), c.get(Calendar.MONTH), c.get(Calendar.DAY_OF_MONTH)-1);
+    sar = fm.getRecords(c.getTimeInMillis(), Long.MAX_VALUE, list.get(i).getName());
+
+    for(SingleActivityRecord s : sar){
+      sum += s.getDuration();
+    }
+
+    //convert ms into hours
+    sum = (long)(sum/(60*60*1000));
+
+    lblTimeSpent.setText(sum + "hrs/" + list.get(i).getGoal().getActualGoal() + "hrs");
 
     Button btnUpdate = (Button)view.findViewById(R.id.btn_custom_update);
     btnUpdate.setOnClickListener(new View.OnClickListener() {

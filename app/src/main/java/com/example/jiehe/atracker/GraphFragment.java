@@ -17,8 +17,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
+import com.github.mikephil.charting.animation.Easing;
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.charts.CombinedChart;
+import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.components.Legend;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.components.YAxis;
@@ -29,19 +31,29 @@ import com.github.mikephil.charting.data.CombinedData;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
+import com.github.mikephil.charting.data.PieData;
+import com.github.mikephil.charting.data.PieDataSet;
+import com.github.mikephil.charting.data.PieEntry;
+import com.github.mikephil.charting.formatter.PercentFormatter;
+import com.github.mikephil.charting.utils.ColorTemplate;
+import com.github.mikephil.charting.utils.MPPointF;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Map;
 
 public class GraphFragment extends Fragment {
 
   //example chart object
   CombinedChart mChart;
+  PieChart pChart;
   FileManager fm;
 
   Button btnPickDate1;
   Button btnPickDate2;
   Button btnGen;
+  Button btnGenPie;
   DatePickerFragment Date1;
   DatePickerFragment Date2;
 
@@ -58,6 +70,64 @@ public class GraphFragment extends Fragment {
 
     //initialised myChart object
     mChart = (CombinedChart) view.findViewById(R.id.BarChartExample);
+
+
+    //Initialise the pie chart
+    pChart = (PieChart)view.findViewById(R.id.PieChatExample);
+
+    InitialiseChartObjects();
+    btnPickDate1 = (Button)view.findViewById(R.id.btnPickDateOne);
+    btnPickDate1.setOnClickListener(new View.OnClickListener() {
+      @Override
+      public void onClick(View view) {
+        Date1.setButton(btnPickDate1);
+        Date1.show( getActivity().getSupportFragmentManager(), "Start Date");
+      }
+    });
+
+    btnPickDate2 = (Button)view.findViewById(R.id.btnPickDateTwo);
+    btnPickDate2.setOnClickListener(new View.OnClickListener() {
+      @Override
+      public void onClick(View view) {
+        Date2.setButton(btnPickDate2);
+        Date2.show( getActivity().getSupportFragmentManager(), "End Date");
+      }
+    });
+
+    btnGen = (Button)view.findViewById(R.id.btnGenGraph);
+    btnGen.setOnClickListener(new View.OnClickListener() {
+      @Override
+      public void onClick(View view) {
+
+        mChart.setVisibility(View.VISIBLE);
+        pChart.setVisibility(View.INVISIBLE);
+        genGraphs(1);
+      }
+    });
+
+    if(Date1.dateInMillis != 0){
+      btnPickDate1.setText("From: " + Date1.dateToString());
+    }
+
+    if(Date2.dateInMillis != 0 ){
+      btnPickDate2.setText("To: " + Date2.dateToString());
+    }
+
+    btnGenPie = (Button) view.findViewById(R.id.btnGenPie);
+    btnGenPie.setOnClickListener(new View.OnClickListener() {
+      @Override
+      public void onClick(View view) {
+        mChart.setVisibility(View.INVISIBLE);
+        pChart.setVisibility(View.VISIBLE);
+        genGraphs(2);
+      }
+    });
+
+
+    return view;
+  }
+
+  private void InitialiseChartObjects(){
     mChart.getDescription().setEnabled(false);
     mChart.setBackgroundColor(Color.WHITE);
     mChart.setDrawGridBackground(false);
@@ -89,42 +159,37 @@ public class GraphFragment extends Fragment {
     xAxis.setAxisMinimum(0f);
     xAxis.setGranularity(1f);
 
-    btnPickDate1 = (Button)view.findViewById(R.id.btnPickDateOne);
-    btnPickDate1.setOnClickListener(new View.OnClickListener() {
-      @Override
-      public void onClick(View view) {
-        Date1.setButton(btnPickDate1);
-        Date1.show( getActivity().getSupportFragmentManager(), "Start Date");
-      }
-    });
+    pChart.setUsePercentValues(true);
+    pChart.getDescription().setEnabled(false);
+    pChart.setExtraOffsets(5,10,5,5);
+    pChart.setDragDecelerationFrictionCoef(0.95f);
 
-    btnPickDate2 = (Button)view.findViewById(R.id.btnPickDateTwo);
-    btnPickDate2.setOnClickListener(new View.OnClickListener() {
-      @Override
-      public void onClick(View view) {
-        Date2.setButton(btnPickDate2);
-        Date2.show( getActivity().getSupportFragmentManager(), "End Date");
-      }
-    });
+    pChart.setDrawHoleEnabled(true);
+    pChart.setHoleColor(Color.WHITE);
 
-    btnGen = (Button)view.findViewById(R.id.btnGenGraph);
-    btnGen.setOnClickListener(new View.OnClickListener() {
-      @Override
-      public void onClick(View view) {
-        genGraph();
-      }
-    });
+    pChart.setTransparentCircleColor(Color.WHITE);
+    pChart.setTransparentCircleAlpha(110);
 
-    if(Date1.dateInMillis != 0){
-      btnPickDate1.setText("From: " + Date1.dateToString());
-    }
+    pChart.setHoleRadius(58f);
+    pChart.setTransparentCircleRadius(61f);
 
-    if(Date2.dateInMillis != 0 ){
-      btnPickDate2.setText("To: " + Date2.dateToString());
-    }
+    pChart.setRotationEnabled(true);
+    pChart.setHighlightPerTapEnabled(true);
 
+    pChart.animateY(1400, Easing.EasingOption.EaseInOutQuad);
+    l = pChart.getLegend();
+    l.setVerticalAlignment(Legend.LegendVerticalAlignment.TOP);
+    l.setHorizontalAlignment(Legend.LegendHorizontalAlignment.RIGHT);
+    l.setOrientation(Legend.LegendOrientation.VERTICAL);
+    l.setDrawInside(false);
+    l.setXEntrySpace(7f);
+    l.setYEntrySpace(0f);
+    l.setYOffset(0f);
 
-    return view;
+    // entry label styling
+    pChart.setEntryLabelColor(Color.WHITE);
+    pChart.setEntryLabelTextSize(12f);
+
   }
 
   /**
@@ -143,13 +208,13 @@ public class GraphFragment extends Fragment {
       for(int j = 0; j < sSAR.size(); j++){
          sum += (sSAR.get(j).getDuration() / 60000);
       }
-      entries.add(new BarEntry(i, sum));
+      entries.add(new BarEntry(i, sum, aActivity.get(i).getName()));
     }
 
     if(entries.size() > 0){
 
       //convert into lineDataSet
-      BarDataSet dataSet = new BarDataSet(entries, "Demo");
+      BarDataSet dataSet = new BarDataSet(entries, "Total Time Spent");
       BarData data = new BarData(dataSet);
       data.setBarWidth(0.9f);
 
@@ -169,14 +234,14 @@ public class GraphFragment extends Fragment {
 
     if(aActivity.size() > 0){
       for(int i = 0; i < aActivity.size(); i++){
-        entries.add( new Entry(i * 0.9f + 0.45f, aActivity.get(i).getActualGoal() * 60));
+        entries.add( new Entry(i, aActivity.get(i).getActualGoal() * 60));
         Log.d("GRAPH", (aActivity.get(i).getActualGoal() * 60) + " ");
       }
     }else{
       return null;
     }
     Log.d("GRAPH", "HERE");
-    LineDataSet set = new LineDataSet(entries, "Line dataset");
+    LineDataSet set = new LineDataSet(entries, "Goals");
     set.setColor(Color.rgb(240, 238, 70));
     set.setLineWidth(2.5f);
     set.setCircleColor(Color.rgb(240, 238, 70));
@@ -202,31 +267,90 @@ public class GraphFragment extends Fragment {
     this.fm = fm;
   }
 
-  public void genGraph(){
+  private void genGraphs(int type){
     Snackbar mySnackbar = Snackbar.make(this.getView(), "Please fix the dates...", Snackbar.LENGTH_LONG);
     CombinedData data = new CombinedData();
+    long startDate = 0;
+    long endDate = 0;
     if(Date1.dateInMillis > 0){
       if(Date2.dateInMillis == 0){
-        data.setData(getBarData(Date1.dateInMillis, Long.MAX_VALUE));
-        data.setData(getLineData());
-        mChart.setData(data);
-        mChart.invalidate();
-        mySnackbar.show();
+        startDate = Date1.dateInMillis;
+        endDate = Long.MAX_VALUE;
       }else if(Date1.dateInMillis < Date2.dateInMillis){
-        data.setData(getBarData(Date1.dateInMillis, Date2.dateInMillis));
-        data.setData(getLineData());
-
-        mChart.setData(data);
-        mChart.invalidate();
-        mySnackbar.show();
+        startDate = Date1.dateInMillis;
+        endDate = Date2.dateInMillis;
       }else{
         mySnackbar.show();
+        return;
       }
     }else{
       mySnackbar.show();
+      return;
+    }
+
+    if(type == 1){
+      data.setData(getBarData(startDate, endDate));
+      data.setData(getLineData());
+      mChart.setData(data);
+      mChart.invalidate();
+    }else{
+      pChart.setData(getPieData(startDate, endDate));
+      pChart.highlightValue(null);
+      mChart.invalidate();
     }
   }
 
+  private PieData getPieData(long lBound, long uBound){
+    //load up the records from data base, the parameters are the start and end time of selection
+    ArrayList<SingleActivityRecord> sSAR = new ArrayList<>();
+    ArrayList<MyActivity> aActivity = fm.getActivity();
+    //by documentation, you need to use Entry objects for the LineChart object to gen plot
+    ArrayList<PieEntry> entries = new ArrayList<>();
+    long sum = 0;
+    for(int i = 0; i < aActivity.size(); i ++){
+      sum = 0;
+      sSAR = fm.getRecords(lBound, uBound, aActivity.get(i).getName());
+      for(int j = 0; j < sSAR.size(); j++){
+        sum += (sSAR.get(j).getDuration() / 60000);
+      }
+      entries.add(new PieEntry(sum,aActivity.get(i).getName()));
+    }
+
+    PieDataSet dataSet = new PieDataSet(entries, "Activities");
+    dataSet.setDrawIcons(false);
+    dataSet.setSliceSpace(3f);
+    dataSet.setIconsOffset(new MPPointF(0, 40));
+    dataSet.setSelectionShift(5f);
+
+    ArrayList<Integer> colors = new ArrayList<Integer>();
+
+    for (int c : ColorTemplate.VORDIPLOM_COLORS)
+      colors.add(c);
+
+    for (int c : ColorTemplate.JOYFUL_COLORS)
+      colors.add(c);
+
+    for (int c : ColorTemplate.COLORFUL_COLORS)
+      colors.add(c);
+
+    for (int c : ColorTemplate.LIBERTY_COLORS)
+      colors.add(c);
+
+    for (int c : ColorTemplate.PASTEL_COLORS)
+      colors.add(c);
+
+    colors.add(ColorTemplate.getHoloBlue());
+
+    dataSet.setColors(colors);
+    //dataSet.setSelectionShift(0f);
+
+    PieData data = new PieData(dataSet);
+    data.setValueFormatter(new PercentFormatter());
+    data.setValueTextSize(11f);
+    data.setValueTextColor(Color.WHITE);
+
+    return data;
+  }
 
 
 
