@@ -9,6 +9,7 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -39,14 +40,10 @@ public class RecordsFragment extends Fragment {
     View view = inflater.inflate(R.layout.frag_list, container, false);
 
     btnCreate = (Button)view.findViewById(R.id.btnAddGoal);
+    btnCreate.setText("Change sort order");
+
     recordList = (ListView)view.findViewById(R.id.listGoal);
-    btnCreate.setOnClickListener(new View.OnClickListener() {
-      @Override
-      public void onClick(View view) {
-        Snackbar s = Snackbar.make(view, "◉_◉: Code not found!", Snackbar.LENGTH_LONG);
-        s.show();
-      }
-    });
+
 
     sortOption = (Spinner)view.findViewById(R.id.sortSpinner);
     ArrayList<String> options = new ArrayList<>();
@@ -62,16 +59,23 @@ public class RecordsFragment extends Fragment {
     sortOption.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
       @Override
       public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-        loadRecords(sortOption.getSelectedItem().toString(), !order);
+        loadRecords(sortOption.getSelectedItem().toString(), order);
       }
 
       @Override
       public void onNothingSelected(AdapterView<?> adapterView) {
         //shouldnt happen.
-        loadRecords(sortOption.getSelectedItem().toString(), !order);
+        loadRecords(sortOption.getSelectedItem().toString(), order);
       }
     });
 
+    btnCreate.setOnClickListener(new View.OnClickListener() {
+      @Override
+      public void onClick(View view) {
+        order = !order;
+        loadRecords(sortOption.getSelectedItem().toString(), order);
+      }
+    });
 
     loadRecords("", order);
 
@@ -100,7 +104,7 @@ public class RecordsFragment extends Fragment {
     if(fPointer < rPointer){
       int oRPointer = rPointer;
       int oFPointer = fPointer;
-      if(order){
+
         while(fPointer < rPointer){
           if(compare(mode, order, sSar.get(fPointer), sSar.get(rPointer))){
             switchN(sSar, rPointer, rPointer-1);
@@ -112,19 +116,7 @@ public class RecordsFragment extends Fragment {
             fPointer++;
           }
         }
-      }else{
-        while(fPointer < rPointer){
-          if(sSar.get(fPointer).getStartTime() < sSar.get(rPointer).getStartTime()){
-            switchN(sSar, rPointer, rPointer-1);
-            if(fPointer != rPointer-1){
-              switchN(sSar, fPointer, rPointer);
-            }
-            rPointer--;
-          }else{
-            fPointer++;
-          }
-        }
-      }
+
 
       //switchNames(names, fPointer, rPointer);
       quickSort(sSar, mode, order, oFPointer, fPointer-1);

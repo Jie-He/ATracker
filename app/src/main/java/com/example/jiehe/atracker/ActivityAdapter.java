@@ -68,7 +68,7 @@ public class ActivityAdapter extends BaseAdapter implements ListAdapter{
     ArrayList<SingleActivityRecord> sar = new ArrayList<>();
     long sum = 0;
     final Calendar c = Calendar.getInstance();
-    c.set(c.get(Calendar.YEAR), c.get(Calendar.MONTH), c.get(Calendar.DAY_OF_MONTH)-1);
+    c.set(c.get(Calendar.YEAR), c.get(Calendar.MONTH), c.get(Calendar.DAY_OF_MONTH), 0, 0,0);
     sar = fm.getRecords(c.getTimeInMillis(), Long.MAX_VALUE, list.get(i).getName());
 
     for(SingleActivityRecord s : sar){
@@ -76,9 +76,9 @@ public class ActivityAdapter extends BaseAdapter implements ListAdapter{
     }
 
     //convert ms into hours
-    sum = (long)(sum/(60*60*1000));
+    double sSum = sum/((double)(60*60*1000));
 
-    lblTimeSpent.setText(sum + "hrs/" + list.get(i).getGoal().getActualGoal() + "hrs");
+    lblTimeSpent.setText(String.format( "%.2f", sSum ) + "hrs/" + list.get(i).getGoal().getActualGoal() + "hrs");
 
     Button btnUpdate = (Button)view.findViewById(R.id.btn_custom_update);
     btnUpdate.setOnClickListener(new View.OnClickListener() {

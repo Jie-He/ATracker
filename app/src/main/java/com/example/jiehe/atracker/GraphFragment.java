@@ -278,7 +278,7 @@ public class GraphFragment extends Fragment {
         endDate = Long.MAX_VALUE;
       }else if(Date1.dateInMillis < Date2.dateInMillis){
         startDate = Date1.dateInMillis;
-        endDate = Date2.dateInMillis;
+        endDate = Date2.dateInMillis + 24 * 60 * 60 * 1000;
       }else{
         mySnackbar.show();
         return;
