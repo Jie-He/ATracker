@@ -206,7 +206,8 @@ public class GraphFragment extends Fragment {
       sum = 0;
       sSAR = fm.getRecords(lBound, uBound, aActivity.get(i).getName());
       for(int j = 0; j < sSAR.size(); j++){
-         sum += (sSAR.get(j).getDuration() / 60000);
+         //sum += (sSAR.get(j).getDuration() / 60000);
+        sum += (sSAR.get(j).getDuration());
       }
       entries.add(new BarEntry(i, sum, aActivity.get(i).getName()));
     }
@@ -234,7 +235,7 @@ public class GraphFragment extends Fragment {
 
     if(aActivity.size() > 0){
       for(int i = 0; i < aActivity.size(); i++){
-        entries.add( new Entry(i, aActivity.get(i).getActualGoal() * 60));
+        entries.add( new Entry(i, aActivity.get(i).getActualGoal() * 60*60*1000));
         Log.d("GRAPH", (aActivity.get(i).getActualGoal() * 60) + " ");
       }
     }else{
@@ -311,7 +312,7 @@ public class GraphFragment extends Fragment {
       sum = 0;
       sSAR = fm.getRecords(lBound, uBound, aActivity.get(i).getName());
       for(int j = 0; j < sSAR.size(); j++){
-        sum += (sSAR.get(j).getDuration() / 60000);
+        sum += (sSAR.get(j).getDuration());
       }
       entries.add(new PieEntry(sum,aActivity.get(i).getName()));
     }
