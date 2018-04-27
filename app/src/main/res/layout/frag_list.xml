@@ -15,10 +15,9 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="0dip"
-        android:layout_weight="0.1"
+        android:layout_height="wrap_content"
         android:gravity="center|bottom"
-        android:orientation="horizontal">
+        android:orientation="vertical">
 
         <Button
             android:layout_width="wrap_content"
@@ -28,8 +27,19 @@
             android:textSize="18dp"
             android:layout_gravity="center"
             android:paddingHorizontal="20dp"
+            android:layout_marginHorizontal="10dp"
             android:textColor="@color/textshapeback"
             android:background="@drawable/buttonshape"/>
+        <Spinner
+            android:id="@+id/sortSpinner"
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_weight="0.09"
+            android:background="@drawable/spinnershape"
+            android:popupBackground="@drawable/spinnerlist"
+            android:textColor="#fff"/>
     </LinearLayout>
 
 </LinearLayout>

@@ -12,6 +12,7 @@ import android.content.ContentValues;
 import android.util.Log;
 
 import java.lang.reflect.Array;
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 
 /**

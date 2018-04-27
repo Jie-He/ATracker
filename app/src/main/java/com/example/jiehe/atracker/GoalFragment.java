@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.Spinner;
 
 import java.util.ArrayList;
 
@@ -44,6 +45,9 @@ public class GoalFragment extends Fragment{
         });
 
         loadActivities();
+
+        Spinner newSpinner = (Spinner)view.findViewById(R.id.sortSpinner);
+        newSpinner.setVisibility(View.GONE);
         return view;
     }
 
